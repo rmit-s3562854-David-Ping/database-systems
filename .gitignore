@@ -17,3 +17,7 @@
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+target
+sample.csv
+init-database.sql
