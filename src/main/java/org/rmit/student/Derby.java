@@ -7,26 +7,34 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
 public class Derby {
 
     private static final String PARKING_BAY_TABLE = "parking_bay";
     private static final String PARKING_EVENT_TABLE = "parking_event";
     private static final String DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
     private static final String DATABASE_NAME = "jdbc:derby:ParkingRecords;create=true;";
+    private static String SQL_TABLE_FILE = "tables.sql";
 
-    private static String SQL_FILE = "init-database.sql";
     private static Connection connection = null;
     private static Statement statement = null;
 
-    public static void load() {
-
+    public static void bulkLoad() {
         connect();
         cleanup();
 
         long startTime = System.currentTimeMillis();
 
-        insertData();
+        // create the tables
+        insertData(SQL_TABLE_FILE);
+        // run the bulk load statement
+        try {
+            statement = connection.createStatement();
+            statement.execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null, 'PARKING_BAY', 'parking-bay.csv', null, null, null, 0)");
+            statement.execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null, 'PARKING_EVENT', 'parking-event.csv', null, null, null, 0)");
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         disconnect();
 
         long endTime = System.currentTimeMillis();
@@ -60,19 +68,17 @@ public class Derby {
     private static void cleanup() {
         try {
             statement = connection.createStatement();
-//            statement.execute("DELETE FROM " + PARKING_EVENT_TABLE);
-//            statement.execute("DELETE FROM " + PARKING_BAY_TABLE);
             statement.execute("DROP TABLE " + PARKING_EVENT_TABLE);
             statement.execute("DROP TABLE " + PARKING_BAY_TABLE);
             statement.close();
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 
-    private static void insertData() {
+    private static void insertData(String filePath) {
         String strCurrentLine;
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(SQL_FILE))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
             statement = connection.createStatement();
             while ((strCurrentLine = bufferedReader.readLine()) != null) {
                 try {
