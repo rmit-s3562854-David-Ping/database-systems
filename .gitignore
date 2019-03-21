@@ -20,5 +20,8 @@
 
 target
 sample.csv
+parking-bay.csv
+parking-event.csv
 ParkingRecords
+ParkingRecords/*
 derby.log

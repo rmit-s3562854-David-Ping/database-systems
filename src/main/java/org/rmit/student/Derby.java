@@ -84,9 +84,7 @@ public class Derby {
                 try {
                     statement.execute(strCurrentLine);
                 } catch (SQLException e) {
-//                    e.printStackTrace();
-                    // Invalid INSERT statement due to broken constraint, this will be expected as we are reducing the
-                    // dataset so the foreign key constraint could be broken in multiple places
+                    e.printStackTrace();
                 }
             }
             statement.close();
