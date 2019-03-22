@@ -2,7 +2,7 @@
 
 require 'csv.rb'
 
-SOURCE_FILE = 'sample-full.csv'
+SOURCE_FILE = 'sample.csv'
 PARKING_BAY_OUTPUT_FILE = 'parking-bay.csv'
 PARKING_EVENT_OUTPUT_FILE = 'parking-event.csv'
 
@@ -14,7 +14,7 @@ end
 
 File.open(PARKING_EVENT_OUTPUT_FILE, 'w') do |file|
   CSV.foreach(SOURCE_FILE, {:headers => true}) do |row|
-    file.write("#{row[0]},'#{row[1]}','#{row[2]}',#{row[3]},'#{row[4]}','#{row[5]}',#{row[7]},#{row[11]},#{row[12]}\n")
+    file.write("#{row[0]},#{row[1]},#{row[2]},#{row[3]},'#{row[4]}','#{row[5]}',#{row[7]},#{row[11]},#{row[12]}\n")
   end
 end
 

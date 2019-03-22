@@ -1,13 +1,12 @@
 #!/usr/bin/env ruby
 
 require 'csv.rb'
+require 'time.rb'
 
 PARKING_BAY_FILE = 'parking-bay.csv'
 PARKING_EVENT_FILE = 'parking-event.csv'
-# Hash to maintain all the available street markers, if parking events has some that do not match then that entry breaks the Foreign key constraint and needs to be deleted
-# This is expected since we are using a reduced portion of the original data set
-street_markers = {}
 
+street_markers = {}
 device_id_arrival_time = {}
 
 # Remove duplicates rows from parking bay table
@@ -24,7 +23,15 @@ end
 CSV.open('output.csv', 'w') do |csv|
   CSV.read("#{PARKING_EVENT_FILE}").uniq.each do |row|
     if street_markers.has_key?(row[4])
+      # Concatenate the device id and arrival time and add to the hash, if ti already exists then ignore this row
       unless device_id_arrival_time.has_key?(row[0] + row[1])
+        # FORMAT THE DATE AND TIME
+        # FROM
+        # 07/21/2017 11:42:28 PM
+        # TO
+        # 2017-07-21 23:42:28
+        row[1] = Time.strptime(row[1], '%m/%d/%Y %T %p').strftime('%Y-%m-%d %T')
+        row[2] = Time.strptime(row[2], '%m/%d/%Y %T %p').strftime('%Y-%m-%d %T')
         csv << row
         device_id_arrival_time[row[0] + row[1]] = true
       end
