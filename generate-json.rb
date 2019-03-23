@@ -31,7 +31,6 @@ File.open(OUTPUT_FILE, 'w') do |file|
   CSV.foreach(SOURCE_FILE, {:headers => true}) do |row|
     # file.write("'#{row[4]}','#{row[6]}','#{row[8]}','#{row[9]}','#{row[10]}'\n")
     file.write("\t{
-\t\t\"da_name\": \"#{row[0]+row[1]}\",
 \t\t\"#{COL1_NAME}\": \"#{row[0]}\",
 \t\t\"#{COL2_NAME}\": \"#{row[1]}\",
 \t\t\"#{COL3_NAME}\": \"#{row[2]}\",
