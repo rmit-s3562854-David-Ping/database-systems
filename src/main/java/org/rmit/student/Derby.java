@@ -69,7 +69,7 @@ public class Derby {
             statement.execute("DROP TABLE " + PARKING_BAY_TABLE);
             statement.close();
         } catch (Exception e) {
-            System.out.println("Tables have not been created yet :)");
+            System.out.println("Tables have not been created yet, Cleaning skipped");
         }
     }
 
