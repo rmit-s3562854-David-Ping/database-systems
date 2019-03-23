@@ -3,7 +3,7 @@ package org.rmit.student;
 public class App {
     public static void main(String[] args) {
         if (args.length != 1) {
-            usage();
+            invalidArgs();
         }
 
         int option = Integer.parseInt(args[0]);
@@ -11,15 +11,18 @@ public class App {
             case 1:
                 Derby.bulkLoad();
                 break;
+            case 2:
+                Mongo.bulkLoad();
+                break;
             default:
-                usage();
+                invalidArgs();
         }
     }
 
-    private static void usage() {
-        System.out.println("Usage: enter one the following as an argument");
-//        System.out.println("1. Load Derby and insert data, output time taken");
+    private static void invalidArgs() {
+        System.out.println("Enter one the following as an argument");
         System.out.println("1. Load Derby and insert data using bulk loading, output time taken");
+        System.out.println("2. Import data into MongoDB");
         System.exit(1);
     }
 }

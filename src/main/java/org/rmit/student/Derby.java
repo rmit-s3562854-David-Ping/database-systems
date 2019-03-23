@@ -54,12 +54,8 @@ public class Derby {
 
     private static void disconnect() {
         try {
-            if (statement != null) {
-                statement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
+            statement.close();
+            connection.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,7 +68,6 @@ public class Derby {
             statement.execute("DROP TABLE " + PARKING_BAY_TABLE);
             statement.close();
         } catch (Exception e) {
-//            e.printStackTrace();
         }
     }
 

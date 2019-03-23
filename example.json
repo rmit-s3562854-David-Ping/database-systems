@@ -1,0 +1,40 @@
+// parking_events collection
+
+[
+  {
+    "da_name": "179762017-03-17 21:16:55",
+    "device_id": "17976",
+    "arrival_time": "2017-03-17 21:16:55",
+    "departure_time": "2017-03-17 21:17:01,6",
+    "duration_seconds": 731,
+    "parking_sign": "2P TKT A M-SAT 7:30-20:30",
+    "street_id": "1428",
+    "side_of_street": 5,
+    "in_violation": false,
+    "parking_bay": {
+      "street_marker": "1339W",
+      "area": "Docklands",
+      "street_name": "VILLAGE STREET",
+      "between_street_1": "COLLINS STREEET",
+      "between_street_2": "BRETANI WAY"
+    }
+  },
+  {
+    "da_name": "179762017-03-17 21:16:55",
+    "device_id": "17976",
+    "arrival_time": "2017-03-17 21:16:55",
+    "departure_time": "2017-03-17 21:17:01,6",
+    "duration_seconds": 731,
+    "parking_sign": "2P TKT A M-SAT 7:30-20:30",
+    "street_id": "1428",
+    "side_of_street": 5,
+    "in_violation": false,
+    "parking_bay": {
+      "street_marker": "1339W",
+      "area": "Docklands",
+      "street_name": "VILLAGE STREET",
+      "between_street_1": "COLLINS STREEET",
+      "between_street_2": "BRETANI WAY"
+    }
+  }
+]
