@@ -3,15 +3,26 @@
 require 'csv.rb'
 require 'time.rb'
 
-SOURCE_FILE = 'sample.csv'
-PARKING_BAY_FILE = 'parking-bay.csv'
-PARKING_EVENT_FILE = 'parking-event.csv'
+PARKING_BAY_OUTPUT_FILE = 'parking-bay.csv'
+PARKING_EVENT_OUTPUT_FILE = 'parking-event.csv'
 
 street_markers = {}
 device_id_arrival_time = {}
 
-File.open(PARKING_BAY_FILE, 'w') do |file|
-  CSV.foreach(SOURCE_FILE, {:headers => true}) do |row|
+if ARGV.length != 1
+  puts "Please enter 1 argument, the path of the csv dataset file"
+  exit
+end
+
+source_file = ARGV[0]
+
+if !File.file?(source_file) || !File.exist?(source_file)
+  puts "Please enter path to a valid file"
+  exit
+end
+
+File.open(PARKING_BAY_OUTPUT_FILE, 'w') do |file|
+  CSV.foreach(source_file, {:headers => true}) do |row|
     if !street_markers.has_key?(row[4]) && row[4] != nil
       file.write("'#{row[4]}','#{row[6]}','#{row[8]}','#{row[9]}','#{row[10]}'\n")
       street_markers[row[4]] = true
@@ -19,8 +30,8 @@ File.open(PARKING_BAY_FILE, 'w') do |file|
   end
 end
 
-File.open(PARKING_EVENT_FILE, 'w') do |file|
-  CSV.foreach(SOURCE_FILE, {:headers => true}) do |row|
+File.open(PARKING_EVENT_OUTPUT_FILE, 'w') do |file|
+  CSV.foreach(source_file, {:headers => true}) do |row|
     if street_markers.has_key?(row[4])
       # FORMAT THE DATE AND TIME
       # FROM

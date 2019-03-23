@@ -41,7 +41,7 @@ public class Derby {
 
         long endTime = System.currentTimeMillis();
         long timeInMilliseconds = endTime - startTime;
-        System.out.println("Time (seconds): " + (timeInMilliseconds / 1000));
+        System.out.println("Time taken to load data (seconds): " + (timeInMilliseconds / 1000));
     }
 
     private static void connect() {

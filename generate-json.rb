@@ -2,9 +2,7 @@
 
 require 'csv.rb'
 
-SOURCE_FILE = 'sample.csv'
 OUTPUT_FILE = 'parking-records.json'
-
 SUB_DIRECTORY_NAME = 'parking_bay'
 
 # DATASET COLUMNS
@@ -22,13 +20,27 @@ COL11_NAME = 'between_street_2'
 COL12_NAME = 'side_of_street'
 COL13_NAME = 'in_violation'
 
-source = File.open(SOURCE_FILE, 'r')
+
+if ARGV.length != 1
+  puts "Please enter 1 argument, the path of the csv dataset file"
+  exit
+end
+
+source_file = ARGV[0]
+
+if !File.file?(source_file) || !File.exist?(source_file)
+  puts "Please enter path to a valid file"
+  exit
+end
+
+
+source = File.open(source_file, 'r')
 file_size = source.readlines.size
 count = 0
 
 File.open(OUTPUT_FILE, 'w') do |file|
   file.write("[\n")
-  CSV.foreach(SOURCE_FILE, {:headers => true}) do |row|
+  CSV.foreach(source_file, {:headers => true}) do |row|
     # file.write("'#{row[4]}','#{row[6]}','#{row[8]}','#{row[9]}','#{row[10]}'\n")
     file.write("\t{
 \t\t\"#{COL1_NAME}\": \"#{row[0]}\",
