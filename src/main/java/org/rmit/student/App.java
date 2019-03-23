@@ -3,7 +3,7 @@ package org.rmit.student;
 public class App {
     public static void main(String[] args) {
         if (args.length != 1) {
-            invalidArgs();
+            displayUsageMessage();
         }
 
         int option = Integer.parseInt(args[0]);
@@ -12,11 +12,11 @@ public class App {
                 Derby.bulkLoad();
                 break;
             default:
-                invalidArgs();
+                displayUsageMessage();
         }
     }
 
-    private static void invalidArgs() {
+    private static void displayUsageMessage() {
         System.out.println("Enter one the following as an argument");
         System.out.println("1. Load Derby and insert data using bulk loading, output time taken");
         System.exit(1);
