@@ -33,7 +33,8 @@ public class Derby {
             statement.execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null, 'PARKING_EVENT', 'parking-event.csv', null, null, null, 0)");
             statement.close();
         } catch (Exception e) {
-            System.err.println("Error occurred when importing csv files into the tables, please ensure you have generated these files using the command: \n./generate-table-data.rb\nfrom the root directory");
+            System.err.println("Error occurred when importing csv files into the tables, please ensure you have generated these files using the script:");
+            System.err.println("generate-table-data.rb");
             System.err.println("If the files already exist please check the tables.sql file and ensure the schema matches the columns in the generated files");
         }
         disconnect();

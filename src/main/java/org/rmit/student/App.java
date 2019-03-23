@@ -11,9 +11,6 @@ public class App {
             case 1:
                 Derby.bulkLoad();
                 break;
-            case 2:
-                Mongo.bulkLoad();
-                break;
             default:
                 invalidArgs();
         }
@@ -22,7 +19,6 @@ public class App {
     private static void invalidArgs() {
         System.out.println("Enter one the following as an argument");
         System.out.println("1. Load Derby and insert data using bulk loading, output time taken");
-        System.out.println("2. Import data into MongoDB");
         System.exit(1);
     }
 }
