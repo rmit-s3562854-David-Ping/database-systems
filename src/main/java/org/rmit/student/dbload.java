@@ -27,7 +27,7 @@ public class dbload {
         String pSize = null;
         String filePath = null;
         if (args.length != 3) {
-            System.exit(1);
+            displayUsageMessage();
         }
 
         if (args[0].equals("-p")) {
@@ -42,12 +42,16 @@ public class dbload {
         }
 
         try {
-            pageSize = Integer.parseInt(pSize);
+            if (pSize != null) {
+                pageSize = Integer.parseInt(pSize);
+            }
         } catch (NumberFormatException e) {
             System.err.println("Enter numeric value for the page size");
             displayUsageMessage();
         }
-        file = new File(filePath);
+        if (filePath != null) {
+            file = new File(filePath);
+        }
         if (!file.exists() || !file.isFile()) {
             System.err.println("File path entered does not exist or is not a file");
             displayUsageMessage();
@@ -120,16 +124,12 @@ public class dbload {
                     byte[] bBetweenStreet2 = Arrays.copyOf(betweenStreet2.getBytes(), MEDIUM_STRING_BYTES);
                     byte[] bSideOfStreet = ByteBuffer.allocate(INTEGER_BYTES).putInt(Integer.parseInt(sideOfStreet)).array();
                     byte[] bInViolation = ByteBuffer.allocate(BOOLEAN_BYTES).put((byte) (Boolean.parseBoolean(inViolation) ? 1 : 0)).array();
-
                     ByteArrayOutputStream recordOutputStream = new ByteArrayOutputStream();
-
                     byte[][] byteArrays = {bDA_NAME, bDeviceId, bArrivalTime, bDepartureTime, bDurationSeconds, bStreetMarker, bParkingSign, bArea, bStreetId, bStreetName, bBetweenStreet1, bBetweenStreet2, bSideOfStreet, bInViolation};
                     for (byte[] byteArray : byteArrays) {
                         recordOutputStream.write(byteArray);
                     }
-
                     byte[] record = recordOutputStream.toByteArray(); // record  length 291
-
                     // If the record byte array length and the page byte array length is greater than the pagesize,
                     // add the page byte array to the heap file and clear the page byte array.
                     if (record.length + pageOutputStream.size() > pageSize) {
@@ -140,8 +140,8 @@ public class dbload {
                     }
                     // Place the record byte array into the page byte array
                     pageOutputStream.write(record);
-                    totalRecords++;
 
+                    totalRecords++;
                 }
             }
             byte[] page = Arrays.copyOf(pageOutputStream.toByteArray(), pageSize);
@@ -159,6 +159,7 @@ public class dbload {
                     bufferedReader.close();
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
