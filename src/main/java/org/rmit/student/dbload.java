@@ -18,6 +18,48 @@ public class dbload {
     private static final int LONG_STRING_BYTES = 50;
 
     public static void main(String[] args) {
+        validateInputs(args);
+        loadData();
+    }
+
+    // Validate input 3 arguments with -p pagesize and datafile
+    private static void validateInputs(String[] args) {
+        String pSize = null;
+        String filePath = null;
+        if (args.length != 3) {
+            System.exit(1);
+        }
+
+        if (args[0].equals("-p")) {
+            pSize = args[1];
+            filePath = args[2];
+        } else if (args[1].equals("-p")) {
+            pSize = args[2];
+            filePath = args[0];
+        } else {
+            System.err.println("Invalid arguments");
+            displayUsageMessage();
+        }
+
+        try {
+            pageSize = Integer.parseInt(pSize);
+        } catch (NumberFormatException e) {
+            System.err.println("Enter numeric value for the page size");
+            displayUsageMessage();
+        }
+        file = new File(filePath);
+        if (!file.exists() || !file.isFile()) {
+            System.err.println("File path entered does not exist or is not a file");
+            displayUsageMessage();
+        }
+    }
+
+    private static void displayUsageMessage() {
+        System.err.println("usage: dbload [-p <page_size>] [<data_file.csv>]");
+        System.exit(1);
+    }
+
+    private static void loadData() {
         // Declare variables for each field in the csv
         String DA_NAME;
         String deviceId;
@@ -34,15 +76,13 @@ public class dbload {
         String sideOfStreet;
         String inViolation;
 
-        validateInputs(args);
-
         long startTime = System.currentTimeMillis();
         int totalRecords = 0;
         int totalPages = 0;
 
         ByteArrayOutputStream pageOutputStream = new ByteArrayOutputStream();
         BufferedReader bufferedReader = null;
-        FileOutputStream fileOutputStream;
+        FileOutputStream fileOutputStream = null;
         try {
             bufferedReader = new BufferedReader(new FileReader(file));
             fileOutputStream = new FileOutputStream("heap." + pageSize);
@@ -83,20 +123,10 @@ public class dbload {
 
                     ByteArrayOutputStream recordOutputStream = new ByteArrayOutputStream();
 
-                    recordOutputStream.write(bDA_NAME);
-                    recordOutputStream.write(bDeviceId);
-                    recordOutputStream.write(bArrivalTime);
-                    recordOutputStream.write(bDepartureTime);
-                    recordOutputStream.write(bDurationSeconds);
-                    recordOutputStream.write(bStreetMarker);
-                    recordOutputStream.write(bParkingSign);
-                    recordOutputStream.write(bArea);
-                    recordOutputStream.write(bStreetId);
-                    recordOutputStream.write(bStreetName);
-                    recordOutputStream.write(bBetweenStreet1);
-                    recordOutputStream.write(bBetweenStreet2);
-                    recordOutputStream.write(bSideOfStreet);
-                    recordOutputStream.write(bInViolation);
+                    byte[][] byteArrays = {bDA_NAME, bDeviceId, bArrivalTime, bDepartureTime, bDurationSeconds, bStreetMarker, bParkingSign, bArea, bStreetId, bStreetName, bBetweenStreet1, bBetweenStreet2, bSideOfStreet, bInViolation};
+                    for (byte[] byteArray : byteArrays) {
+                        recordOutputStream.write(byteArray);
+                    }
 
                     byte[] record = recordOutputStream.toByteArray(); // record  length 291
 
@@ -114,7 +144,6 @@ public class dbload {
 
                 }
             }
-
             byte[] page = Arrays.copyOf(pageOutputStream.toByteArray(), pageSize);
             fileOutputStream.write(page);
             totalPages++;
@@ -123,7 +152,10 @@ public class dbload {
             e.printStackTrace();
         } finally {
             try {
-                if(bufferedReader != null) {
+                if (fileOutputStream != null) {
+                    fileOutputStream.close();
+                }
+                if (bufferedReader != null) {
                     bufferedReader.close();
                 }
             } catch (Exception e) {
@@ -136,43 +168,6 @@ public class dbload {
         System.out.println("Time taken to load data (seconds): " + (timeInMilliseconds / 1000));
         System.out.println("Records added: " + totalRecords);
         System.out.println("Pages added: " + totalPages);
-    }
 
-
-    // Validate input 3 arguments with -p pagesize and datafile
-    public static void validateInputs(String[] args) {
-        String pSize = null;
-        String filePath = null;
-        if (args.length != 3) {
-            System.exit(1);
-        }
-
-        if (args[0].equals("-p")) {
-            pSize = args[1];
-            filePath = args[2];
-        } else if (args[1].equals("-p")) {
-            pSize = args[2];
-            filePath = args[0];
-        } else {
-            System.err.println("Invalid arguments");
-            displayUsageMessage();
-        }
-
-        try {
-            pageSize = Integer.parseInt(pSize);
-        } catch (NumberFormatException e) {
-            System.err.println("Enter numeric value for the page size");
-            displayUsageMessage();
-        }
-        file = new File(filePath);
-        if (!file.exists() || !file.isFile()) {
-            System.err.println("File path entered does not exist or is not a file");
-            displayUsageMessage();
-        }
-    }
-
-    private static void displayUsageMessage() {
-        System.err.println("usage: dbload [-p <page_size>] [<data_file.csv>]");
-        System.exit(1);
     }
 }
