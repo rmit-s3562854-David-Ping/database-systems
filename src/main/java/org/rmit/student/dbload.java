@@ -104,7 +104,6 @@ public class dbload {
                     // add the page byte array to the heap file and clear the page byte array.
                     if (record.length + pageOutputStream.size() > pageSize) {
                         byte[] page = Arrays.copyOf(pageOutputStream.toByteArray(), pageSize);
-                        System.out.println(page.length);
                         fileOutputStream.write(page);
                         totalPages++;
                         pageOutputStream.reset();
@@ -116,8 +115,7 @@ public class dbload {
                 }
             }
 
-            byte[] page = pageOutputStream.toByteArray();
-            System.out.println(page.length);
+            byte[] page = Arrays.copyOf(pageOutputStream.toByteArray(), pageSize);
             fileOutputStream.write(page);
             totalPages++;
 
@@ -125,7 +123,9 @@ public class dbload {
             e.printStackTrace();
         } finally {
             try {
-                bufferedReader.close();
+                if(bufferedReader != null) {
+                    bufferedReader.close();
+                }
             } catch (Exception e) {
             }
         }
@@ -135,21 +135,6 @@ public class dbload {
         System.out.println("Time taken to load data (seconds): " + (timeInMilliseconds / 1000));
         System.out.println("Records added: " + totalRecords);
         System.out.println("Pages added: " + totalPages);
-
-
-//        int numOfBytes = 20;
-//        String name;
-//        byte[] bName = Arrays.copyOf(name.getBytes(), numOfBytes);
-//        for (byte b: bName) {
-//            System.out.println(b);
-//        }
-//        System.out.println();
-//        System.out.println(bName.length);
-//        byte[] bytes = ByteBuffer.allocate(4).putInt(1695609641).array();
-//
-//        for (byte b : bytes) {
-//            System.out.format("0x%x ", b);
-//        }
     }
 
 
@@ -185,7 +170,7 @@ public class dbload {
         }
     }
 
-    public static void displayUsageMessage() {
+    private static void displayUsageMessage() {
         System.err.println("usage: dbload [-p <page_size>] [<data_file.csv>]");
         System.exit(1);
     }
