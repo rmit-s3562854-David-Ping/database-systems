@@ -6,8 +6,8 @@ import java.util.Arrays;
 
 public class dbload {
 
-    private static int pageSize;
-    private static File file;
+    private int pageSize;
+    private File file;
     private static final String DELIMITER = ",";
 
     private static final int BOOLEAN_BYTES = 1;
@@ -18,12 +18,17 @@ public class dbload {
     private static final int LONG_STRING_BYTES = 50;
 
     public static void main(String[] args) {
-        validateInputs(args);
-        loadData();
+        dbload load = new dbload();
+        load.validateInputs(args);
+        load.loadData();
     }
 
-    // Validate input 3 arguments with -p pagesize and datafile
-    private static void validateInputs(String[] args) {
+    /**
+     * Validates the command line arguments with -p pagesize and datafile
+     *
+     * @param args The command line arguments
+     */
+    private void validateInputs(String[] args) {
         String pSize = null;
         String filePath = null;
         if (args.length != 3) {
@@ -58,12 +63,18 @@ public class dbload {
         }
     }
 
-    private static void displayUsageMessage() {
+    private void displayUsageMessage() {
         System.err.println("usage: dbload [-p <page_size>] [<data_file.csv>]");
         System.exit(1);
     }
 
-    private static void loadData() {
+    /**
+     * This method reads through each column in the csv file and converts the values into byte arrays which are then
+     * written into a heap file with pages whose size are specified in the command line. The records being written into
+     * each page will have a fixed length and will be appended to a byte array of size <pagesize>, this array represents
+     * the page which after being filled (no more records can be added) will be padded and written to the heap file.
+     */
+    private void loadData() {
         // Declare variables for each field in the csv
         String DA_NAME;
         String deviceId;
@@ -86,10 +97,10 @@ public class dbload {
 
         ByteArrayOutputStream pageOutputStream = new ByteArrayOutputStream();
         BufferedReader bufferedReader = null;
-        FileOutputStream fileOutputStream = null;
+        DataOutputStream dataOutputStream = null;
         try {
             bufferedReader = new BufferedReader(new FileReader(file));
-            fileOutputStream = new FileOutputStream("heap." + pageSize);
+            dataOutputStream = new DataOutputStream(new FileOutputStream("heap." + pageSize));
             String row;
             bufferedReader.readLine();
             while ((row = bufferedReader.readLine()) != null) {
@@ -134,7 +145,7 @@ public class dbload {
                     // add the page byte array to the heap file and clear the page byte array.
                     if (record.length + pageOutputStream.size() > pageSize) {
                         byte[] page = Arrays.copyOf(pageOutputStream.toByteArray(), pageSize);
-                        fileOutputStream.write(page);
+                        dataOutputStream.write(page);
                         totalPages++;
                         pageOutputStream.reset();
                     }
@@ -145,15 +156,15 @@ public class dbload {
                 }
             }
             byte[] page = Arrays.copyOf(pageOutputStream.toByteArray(), pageSize);
-            fileOutputStream.write(page);
+            dataOutputStream.write(page);
             totalPages++;
 
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                if (fileOutputStream != null) {
-                    fileOutputStream.close();
+                if (dataOutputStream != null) {
+                    dataOutputStream.close();
                 }
                 if (bufferedReader != null) {
                     bufferedReader.close();
@@ -169,6 +180,5 @@ public class dbload {
         System.out.println("Time taken to load data (seconds): " + (timeInMilliseconds / 1000));
         System.out.println("Records added: " + totalRecords);
         System.out.println("Pages added: " + totalPages);
-
     }
 }

@@ -19,7 +19,6 @@
 !.vscode/extensions.json
 
 target
-sample.csv
 sample-full.csv
 parking-bay.csv
 parking-event.csv

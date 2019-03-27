@@ -18,10 +18,13 @@ public class Derby {
     private static Connection connection = null;
     private static Statement statement = null;
 
-    public static void bulkLoad() {
+    public static void main(String[] args) {
         connect();
         cleanup();
+        Derby.bulkLoad();
+    }
 
+    public static void bulkLoad() {
         long startTime = System.currentTimeMillis();
 
         // create the tables
@@ -33,9 +36,8 @@ public class Derby {
             statement.execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null, 'PARKING_EVENT', 'parking-event.csv', null, null, null, 0)");
             statement.close();
         } catch (Exception e) {
-            System.err.println("Error occurred when importing csv files into the tables, please ensure you have generated these files using the script:");
-            System.err.println("generate-table-data.rb");
-            System.err.println("If the files already exist please check the tables.sql file and ensure the schema matches the columns in the generated files");
+            System.err.println("Error occurred when importing csv files into the tables, please ensure you have generated these files using the script: ./generate-table-data.rb sample.csv");
+            System.err.println("If the files already exist please check the tables.sql file exists and ensure the schema matches the columns in the generated files");
         }
         disconnect();
 
@@ -51,7 +53,6 @@ public class Derby {
             connection = DriverManager.getConnection(DATABASE_NAME);
         } catch (Exception e) {
             e.printStackTrace();
-            System.exit(1);
         }
     }
 
@@ -89,7 +90,6 @@ public class Derby {
             statement.close();
         } catch (Exception e) {
             e.printStackTrace();
-            System.exit(1);
         }
     }
 }

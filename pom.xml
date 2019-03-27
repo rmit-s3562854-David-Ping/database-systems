@@ -68,7 +68,7 @@
                             <manifest>
                                 <addClasspath>true</addClasspath>
                                 <classpathPrefix>dependency-jars/</classpathPrefix>
-                                <mainClass>org.rmit.student.App</mainClass>
+                                <mainClass>org.rmit.student.Derby</mainClass>
                             </manifest>
                         </archive>
                     </configuration>
@@ -122,7 +122,7 @@
                             <configuration>
                                 <transformers>
                                     <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                        <mainClass>org.rmit.student.App</mainClass>
+                                        <mainClass>org.rmit.student.Derby</mainClass>
                                     </transformer>
                                 </transformers>
                             </configuration>

@@ -12,7 +12,7 @@ To run the script pass in the name of the csv data file as an argument:
 
 ``./generate-table-data.rb example.csv``
 
-Run the java application and pass in the command line argument '1'
+Compile and run the java app Derby
 
 ## Loading data into MongoDB
 
@@ -24,8 +24,4 @@ This will generate a JSON file "parking-records.json" which we will then load in
 
 ``./mongo-import.rb``
 
-## Create an executable jar file
-
-To create an executable jar run the command
-
-``mvn clean package shade:shade``
+Ensure a connection is open

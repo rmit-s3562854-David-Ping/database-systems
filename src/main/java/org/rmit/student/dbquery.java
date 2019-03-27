@@ -5,9 +5,9 @@ import java.nio.ByteBuffer;
 
 public class dbquery {
 
-    private static String text;
-    private static int pageSize;
-    private static File file;
+    private String text;
+    private int pageSize;
+    private File file;
 
     private static final int BOOLEAN_BYTES = 1;
     private static final int INTEGER_BYTES = 4;
@@ -32,12 +32,17 @@ public class dbquery {
     private static final int IN_VIOLATION_SIZE = BOOLEAN_BYTES;
 
     public static void main(String[] args) {
-        validateInputs(args);
-        search();
+        dbquery query = new dbquery();
+        query.validateInputs(args);
+        query.search();
     }
 
-    // Validate input 2 arguments with text pagesize
-    private static void validateInputs(String[] args) {
+    /**
+     * Validates the command line arguments with text and page size
+     *
+     * @param args The command line arguments
+     */
+    private void validateInputs(String[] args) {
         if (args.length != 2) {
             displayUsageMessage();
         }
@@ -58,12 +63,16 @@ public class dbquery {
         }
     }
 
-    private static void displayUsageMessage() {
+    private void displayUsageMessage() {
         System.err.println("usage: dbquery [<text>] [<page_size>]");
         System.exit(1);
     }
 
-    private static void search() {
+    /**
+     * This method reads an array of bytes from the heap file corresponding to the page size, hence it reads one page
+     * at a time. This will continue until all pages are searched.
+     */
+    private void search() {
         long startTime = System.currentTimeMillis();
 
         FileInputStream fileInputStream = null;
@@ -94,7 +103,12 @@ public class dbquery {
         System.out.println("Time taken to search (seconds): " + (timeInMilliseconds / 1000));
     }
 
-    private static void searchPage(byte[] page) {
+    /**
+     * This method reads records from the page and then fields from the records, if the first field DA_NAME is equal
+     * to the search text then it print out the full contents of that record. This will go on until all records in the
+     * page are searched.
+     */
+    private void searchPage(byte[] page) {
         // Declare variables for each field in the csv
         byte[] DA_NAME = new byte[DA_NAME_SIZE];
         byte[] deviceId = new byte[DEVICE_ID_SIZE];
@@ -141,6 +155,7 @@ public class dbquery {
             }
 
             String recordID = new String(DA_NAME);
+            // After converting to string, need to trim to remove empty spaces that comes after (from the padding)
             if (recordID.trim().equals(text)) {
                 System.out.println("DeviceID: " + ByteBuffer.wrap(deviceId).getInt());
                 System.out.println("Arrival time: " + new String(arrivalTime));
