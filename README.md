@@ -1,9 +1,5 @@
 # Database Systems assignment 1
 
-The Java application takes in the following command line arguments
-
-`1`: Load the generated csv files into Apache DB
-
 ## Loading data into Apache Derby
 
 Run the "generate-table-data.rb" script at the root of the project, this will generate 2 csv files "parking-bay.csv" and "parking-event.csv".
