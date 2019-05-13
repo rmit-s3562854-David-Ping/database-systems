@@ -1,0 +1,137 @@
+commit e35ffd5edb1b6a41fc7738974684405bb3354f20
+Author: David Ping <s3562854@student.rmit.edu.au>
+Date:   Thu Mar 28 01:07:43 2019 +1100
+
+    Clean up comments
+
+commit f1ed7aa36fce97df9e4510a07e5d609aa1de653b
+Author: David Ping <s3562854@student.rmit.edu.au>
+Date:   Thu Mar 28 00:54:25 2019 +1100
+
+    Refactoring last
+
+commit 05e1a10e71957a257e53e8def253a51cc424c9af
+Author: David Ping <s3562854@student.rmit.edu.au>
+Date:   Sun Mar 24 23:10:47 2019 +1100
+
+    added ms time
+
+commit ad2945c47924e11b3745c4fbb14a65a450bf79a1
+Author: David Ping <s3562854@student.rmit.edu.au>
+Date:   Sun Mar 24 22:31:59 2019 +1100
+
+    Added query for heapfile
+
+commit 98ad2168cdc98ea8c6100860b0471f3adb1bea1a
+Author: David Ping <s3562854@student.rmit.edu.au>
+Date:   Sun Mar 24 12:18:05 2019 +1100
+
+    Code refactoring
+
+commit 506a4b90e2c1c9cee8933d82666ee145e6baeb93
+Author: David Ping <s3562854@student.rmit.edu.au>
+Date:   Sun Mar 24 11:57:11 2019 +1100
+
+    fixed stdout
+
+commit b8d2caff35949c3d8668c21f4a9f37c3caac6b3a
+Author: David Ping <s3562854@student.rmit.edu.au>
+Date:   Sun Mar 24 11:47:23 2019 +1100
+
+    Cleanup code
+
+commit e4475a716ebaa470cb2aa349765c1f41fb53c65f
+Author: David Ping <s3562854@student.rmit.edu.au>
+Date:   Sun Mar 24 11:44:15 2019 +1100
+
+    Added loading for heap files
+
+commit e4fb9471ef27ce72d65450fd47628148a30009ee
+Author: David Ping <s3562854@student.rmit.edu.au>
+Date:   Sat Mar 23 20:23:57 2019 +1100
+
+    Started heapfile, added input validation for arguments
+
+commit 5c245e03f94c7f5004c5a9bc48886d5a8c8d859e
+Author: David Ping <s3562854@student.rmit.edu.au>
+Date:   Sat Mar 23 17:11:21 2019 +1100
+
+    Refactoring, added readme and instructions on how to run the app
+
+commit 561f21ad82e5ed52386f31c5960f01f45333a31b
+Author: David Ping <s3562854@student.rmit.edu.au>
+Date:   Sat Mar 23 16:39:22 2019 +1100
+
+    Removed mongo from java
+
+commit 1478dbb9c118f38c00e1fdcf04562e77871dad9e
+Author: David Ping <s3562854@student.rmit.edu.au>
+Date:   Sat Mar 23 16:31:28 2019 +1100
+
+    Adjusted comment
+
+commit 6973dcf14baa304a30164f15e80a75658ca01a01
+Author: David Ping <s3562854@student.rmit.edu.au>
+Date:   Sat Mar 23 15:19:27 2019 +1100
+
+    Refactored scripts for generating csv files for derby
+
+commit 72f5369be1bfd4f3e96a3bd4679b86ae99b4b7c9
+Author: David Ping <s3562854@student.rmit.edu.au>
+Date:   Sat Mar 23 14:41:19 2019 +1100
+
+    removed unneeded field in json
+
+commit 8a3f882ea61537894cdb4fe54c3f28dca7af7822
+Author: David Ping <s3562854@student.rmit.edu.au>
+Date:   Sat Mar 23 14:32:02 2019 +1100
+
+    Added mongo data loading scripts
+
+commit 429e1cdc7f988f490047f402a07db3fc106652d6
+Author: David Ping <s3562854@student.rmit.edu.au>
+Date:   Fri Mar 22 16:29:17 2019 +1100
+
+    Refactoring for derby
+
+commit 7731c1291e0cc7b98399b775438d286e44184652
+Author: David Ping <s3562854@student.rmit.edu.au>
+Date:   Fri Mar 22 00:54:43 2019 +1100
+
+    Finished derby
+
+commit 92380802d4586f929ae78feb887a3e61c3a4a955
+Author: David Ping <s3562854@student.rmit.edu.au>
+Date:   Thu Mar 21 23:54:26 2019 +1100
+
+    cleanup
+
+commit f186f4dc644e880e93267c13ec3bad5b73892b67
+Author: David Ping <s3562854@student.rmit.edu.au>
+Date:   Thu Mar 21 10:01:46 2019 +1100
+
+    Fixed pom so the whole project can be run as an executable jar file
+
+commit 21392375401f735bf913f8154f3d74848fb5e8d6
+Author: David Ping <s3562854@student.rmit.edu.au>
+Date:   Thu Mar 21 08:18:08 2019 +1100
+
+    Fixing startup
+
+commit 32ae02d1544f3ecb6fbbf8b3cb98ca03993e29a4
+Author: David Ping <s3562854@student.rmit.edu.au>
+Date:   Thu Mar 21 08:06:39 2019 +1100
+
+    Added derby config and scripts
+
+commit 467e86095f999ec07c30e6429db4dab17374b713
+Author: David Ping <davidping96@gmail.com>
+Date:   Tue Mar 12 19:30:50 2019 +1100
+
+    hello world
+
+commit 4740669cd4259d92294366870a01cb55b682a588
+Author: David Ping <davidping96@gmail.com>
+Date:   Tue Mar 12 19:29:39 2019 +1100
+
+    first commit
