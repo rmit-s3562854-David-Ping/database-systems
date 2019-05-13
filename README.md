@@ -25,3 +25,5 @@ This will generate a JSON file "parking-records.json" which we will then load in
 ``./mongo-import.rb``
 
 Ensure a connection is open
+
+``mongod``
