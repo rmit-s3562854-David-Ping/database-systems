@@ -10,6 +10,10 @@ To run the script pass in the name of the csv data file as an argument:
 
 Compile and run the java app Derby
 
+``mvn clean install``
+
+``java -jar target/database-systems-1.0-SNAPSHOT.jar``
+
 ## Loading data into MongoDB
 
 To load data into a MongoDB database simply run the "generate-json.rb" script while passing in the name of the csv data file as an argument.
