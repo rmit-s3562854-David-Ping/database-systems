@@ -1,4 +1,4 @@
-package org.rmit.student;
+package org.rmit.student.tree;
 
 import java.io.*;
 import java.nio.ByteBuffer;
@@ -9,10 +9,7 @@ public class dbload {
     private int pageSize;
     private File file;
     private static final String DELIMITER = ",";
-
     private static final int BOOLEAN_BYTES = 1;
-    private static final int INTEGER_BYTES = 4;
-    private static final int LONG_BYTES = 8;
     private static final int SHORT_STRING_BYTES = 10;
     private static final int MEDIUM_STRING_BYTES = 30;
     private static final int LONG_STRING_BYTES = 50;
@@ -122,18 +119,18 @@ public class dbload {
                     inViolation = columns[12];
 
                     byte[] bDA_NAME = Arrays.copyOf(DA_NAME.getBytes(), MEDIUM_STRING_BYTES);
-                    byte[] bDeviceId = ByteBuffer.allocate(INTEGER_BYTES).putInt(Integer.parseInt(deviceId)).array();
+                    byte[] bDeviceId = ByteBuffer.allocate(Integer.BYTES).putInt(Integer.parseInt(deviceId)).array();
                     byte[] bArrivalTime = Arrays.copyOf(arrivalTime.getBytes(), MEDIUM_STRING_BYTES);
                     byte[] bDepartureTime = Arrays.copyOf(departureTime.getBytes(), MEDIUM_STRING_BYTES);
-                    byte[] bDurationSeconds = ByteBuffer.allocate(LONG_BYTES).putLong(Long.parseLong(durationSeconds)).array();
+                    byte[] bDurationSeconds = ByteBuffer.allocate(Long.BYTES).putLong(Long.parseLong(durationSeconds)).array();
                     byte[] bStreetMarker = Arrays.copyOf(streetMarker.getBytes(), SHORT_STRING_BYTES);
                     byte[] bParkingSign = Arrays.copyOf(parkingSign.getBytes(), LONG_STRING_BYTES);
                     byte[] bArea = Arrays.copyOf(area.getBytes(), MEDIUM_STRING_BYTES);
-                    byte[] bStreetId = ByteBuffer.allocate(INTEGER_BYTES).putInt(Integer.parseInt(streetId)).array();
+                    byte[] bStreetId = ByteBuffer.allocate(Integer.BYTES).putInt(Integer.parseInt(streetId)).array();
                     byte[] bStreetName = Arrays.copyOf(streetName.getBytes(), MEDIUM_STRING_BYTES);
                     byte[] bBetweenStreet1 = Arrays.copyOf(betweenStreet1.getBytes(), MEDIUM_STRING_BYTES);
                     byte[] bBetweenStreet2 = Arrays.copyOf(betweenStreet2.getBytes(), MEDIUM_STRING_BYTES);
-                    byte[] bSideOfStreet = ByteBuffer.allocate(INTEGER_BYTES).putInt(Integer.parseInt(sideOfStreet)).array();
+                    byte[] bSideOfStreet = ByteBuffer.allocate(Integer.BYTES).putInt(Integer.parseInt(sideOfStreet)).array();
                     byte[] bInViolation = ByteBuffer.allocate(BOOLEAN_BYTES).put((byte) (Boolean.parseBoolean(inViolation) ? 1 : 0)).array();
                     ByteArrayOutputStream recordOutputStream = new ByteArrayOutputStream();
                     byte[][] byteArrays = {bDA_NAME, bDeviceId, bArrivalTime, bDepartureTime, bDurationSeconds, bStreetMarker, bParkingSign, bArea, bStreetId, bStreetName, bBetweenStreet1, bBetweenStreet2, bSideOfStreet, bInViolation};

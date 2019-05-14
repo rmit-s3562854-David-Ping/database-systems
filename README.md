@@ -27,3 +27,6 @@ This will generate a JSON file "parking-records.json" which we will then load in
 Ensure a connection is open
 
 ``mongod``
+
+## B+ Tree
+

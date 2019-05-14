@@ -1,35 +1,15 @@
-package org.rmit.student;
+package org.rmit.student.tree;
 
 import java.io.*;
 import java.nio.ByteBuffer;
+
+import static org.rmit.student.tree.Constants.*;
 
 public class dbquery {
 
     private String text;
     private int pageSize;
     private File file;
-
-    private static final int BOOLEAN_BYTES = 1;
-    private static final int INTEGER_BYTES = 4;
-    private static final int LONG_BYTES = 8;
-    private static final int SHORT_STRING_BYTES = 10;
-    private static final int MEDIUM_STRING_BYTES = 30;
-    private static final int LONG_STRING_BYTES = 50;
-
-    private static final int DA_NAME_SIZE = MEDIUM_STRING_BYTES;
-    private static final int DEVICE_ID_SIZE = INTEGER_BYTES;
-    private static final int ARRIVAL_TIME_SIZE = MEDIUM_STRING_BYTES;
-    private static final int DEPARTURE_TIME_SIZE = MEDIUM_STRING_BYTES;
-    private static final int DURATION_SECONDS_SIZE = LONG_BYTES;
-    private static final int STREET_MARKER_SIZE = SHORT_STRING_BYTES;
-    private static final int PARKING_SIGN_SIZE = LONG_STRING_BYTES;
-    private static final int AREA_SIZE = MEDIUM_STRING_BYTES;
-    private static final int STREET_ID_SIZE = INTEGER_BYTES;
-    private static final int STREET_NAME_SIZE = MEDIUM_STRING_BYTES;
-    private static final int BETWEEN_STREET_1_SIZE = MEDIUM_STRING_BYTES;
-    private static final int BETWEEN_STREET_2_SIZE = MEDIUM_STRING_BYTES;
-    private static final int SIDE_OF_STREET_SIZE = INTEGER_BYTES;
-    private static final int IN_VIOLATION_SIZE = BOOLEAN_BYTES;
 
     public static void main(String[] args) {
         dbquery query = new dbquery();
@@ -155,6 +135,9 @@ public class dbquery {
             }
 
             String recordID = new String(DA_NAME);
+            if(!recordID.trim().equals("")) {
+                System.out.println(recordID.trim());
+            }
             // After converting to string, need to trim to remove empty spaces that comes after (from the padding)
             if (recordID.trim().equals(text)) {
                 System.out.println("DeviceID: " + ByteBuffer.wrap(deviceId).getInt());
