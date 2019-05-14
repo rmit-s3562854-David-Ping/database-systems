@@ -45,8 +45,8 @@ public class InternalNode<K extends Comparable<K>> extends Node<K> {
 
     /**
      * Many things occur when an overflow occurs:
-     * 1. A new node is created, in this case since the overflow is occurring in an Internal node a new Internal will
-     * be created and set to the right of this one.
+     * 1. A new node is created, in this case since the overflow is occurring in an Internal node a new Internal node
+     * will be created
      *
      * 2. The children of the current Internal node (left) will be split between itself and the new node
      *

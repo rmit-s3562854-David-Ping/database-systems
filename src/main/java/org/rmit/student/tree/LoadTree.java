@@ -73,6 +73,8 @@ public class LoadTree {
      * Normal load, loads the nodes into the tree one by one
      */
     private void load() {
+//        Test data, used for debugging
+//        BPlusTree<Integer, String> tree = new BPlusTree(branchingFactor);
 //        tree.insert(7, "asd");
 //        tree.insert(4, "asd");
 //        tree.insert(3, "asd");
@@ -142,8 +144,7 @@ public class LoadTree {
         }
     }
 
-
-
+    // TODO
     private void bulkLoad() {
         // assume file is sorted or call external merge sort on it first
     }

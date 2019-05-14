@@ -107,22 +107,18 @@ public class dbquery {
 
         byte[][] byteArrays = {DA_NAME, deviceId, arrivalTime, departureTime, durationSeconds, streetMarker, parkingSign, area, streetId, streetName, betweenStreet1, betweenStreet2, sideOfStreet, inViolation};
 
-        int recordSize = DA_NAME_SIZE + DEVICE_ID_SIZE + ARRIVAL_TIME_SIZE + DEPARTURE_TIME_SIZE + DURATION_SECONDS_SIZE +
-                STREET_MARKER_SIZE + PARKING_SIGN_SIZE + AREA_SIZE + STREET_ID_SIZE + STREET_NAME_SIZE +
-                BETWEEN_STREET_1_SIZE + BETWEEN_STREET_2_SIZE + SIDE_OF_STREET_SIZE + IN_VIOLATION_SIZE;
-
         ByteArrayInputStream pageInputStream = new ByteArrayInputStream(page);
 
         int bytesRead;
         while (true) {
-            byte[] record = new byte[recordSize];
+            byte[] record = new byte[RECORD_SIZE];
             bytesRead = 0;
             try {
                 bytesRead = pageInputStream.read(record);
             } catch (Exception e) {
             }
 
-            if (bytesRead != recordSize) {
+            if (bytesRead != RECORD_SIZE) {
                 break;
             }
             ByteArrayInputStream recordInputStream = new ByteArrayInputStream(record);
