@@ -9,8 +9,8 @@ public class Constants {
 
     public static final int DA_NAME_SIZE = MEDIUM_STRING_BYTES;
     public static final int DEVICE_ID_SIZE = Integer.BYTES;
-    public static final int ARRIVAL_TIME_SIZE = MEDIUM_STRING_BYTES;
-    public static final int DEPARTURE_TIME_SIZE = MEDIUM_STRING_BYTES;
+    public static final int ARRIVAL_TIME_SIZE = Long.BYTES;
+    public static final int DEPARTURE_TIME_SIZE = Long.BYTES;
     public static final int DURATION_SECONDS_SIZE = Long.BYTES;
     public static final int STREET_MARKER_SIZE = SHORT_STRING_BYTES;
     public static final int PARKING_SIGN_SIZE = LONG_STRING_BYTES;

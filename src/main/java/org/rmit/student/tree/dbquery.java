@@ -2,6 +2,7 @@ package org.rmit.student.tree;
 
 import java.io.*;
 import java.nio.ByteBuffer;
+import java.util.Date;
 
 import static org.rmit.student.tree.Constants.*;
 
@@ -137,8 +138,8 @@ public class dbquery {
             // After converting to string, need to trim to remove empty spaces that comes after (from the padding)
             if (recordID.trim().equals(text)) {
                 System.out.println("DeviceID: " + ByteBuffer.wrap(deviceId).getInt());
-                System.out.println("Arrival time: " + new String(arrivalTime));
-                System.out.println("Departure time: " + new String(departureTime));
+                System.out.println("Arrival time: " + new Date(ByteBuffer.wrap(arrivalTime).getLong() * 1000));
+                System.out.println("Departure time: " + new Date(ByteBuffer.wrap(departureTime).getLong() * 1000));
                 System.out.println("Duration (seconds): " + ByteBuffer.wrap(durationSeconds).getLong());
                 System.out.println("Street marker: " + new String(streetMarker));
                 System.out.println("Parking sign: " + new String(parkingSign));

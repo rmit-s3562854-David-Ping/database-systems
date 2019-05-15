@@ -120,8 +120,8 @@ public class dbload {
 
                     byte[] bDA_NAME = Arrays.copyOf(DA_NAME.getBytes(), MEDIUM_STRING_BYTES);
                     byte[] bDeviceId = ByteBuffer.allocate(Integer.BYTES).putInt(Integer.parseInt(deviceId)).array();
-                    byte[] bArrivalTime = Arrays.copyOf(arrivalTime.getBytes(), MEDIUM_STRING_BYTES);
-                    byte[] bDepartureTime = Arrays.copyOf(departureTime.getBytes(), MEDIUM_STRING_BYTES);
+                    byte[] bArrivalTime = ByteBuffer.allocate(Long.BYTES).putLong(Long.parseLong(arrivalTime)).array();
+                    byte[] bDepartureTime = ByteBuffer.allocate(Long.BYTES).putLong(Long.parseLong(departureTime)).array();
                     byte[] bDurationSeconds = ByteBuffer.allocate(Long.BYTES).putLong(Long.parseLong(durationSeconds)).array();
                     byte[] bStreetMarker = Arrays.copyOf(streetMarker.getBytes(), SHORT_STRING_BYTES);
                     byte[] bParkingSign = Arrays.copyOf(parkingSign.getBytes(), LONG_STRING_BYTES);
