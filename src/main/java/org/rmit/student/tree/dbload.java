@@ -99,7 +99,6 @@ public class dbload {
             bufferedReader = new BufferedReader(new FileReader(file));
             dataOutputStream = new DataOutputStream(new FileOutputStream("heap." + pageSize));
             String row;
-            bufferedReader.readLine();
             while ((row = bufferedReader.readLine()) != null) {
                 String[] columns = row.split(DELIMITER);
                 if (columns[0] != null && columns[1] != null) {

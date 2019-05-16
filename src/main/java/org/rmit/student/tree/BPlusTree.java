@@ -3,13 +3,13 @@ package org.rmit.student.tree;
 public class BPlusTree<K extends Comparable<K>, V> {
 
     // Must be >= 3
-    private int branchingFactor;
+    private int order;
 
     private Node<K> root;
 
-    public BPlusTree(int branchingFactor) {
-        this.branchingFactor = branchingFactor;
-        this.root = new LeafNode<K, V>(branchingFactor);
+    public BPlusTree(int order) {
+        this.order = order;
+        this.root = new LeafNode<K, V>(order);
     }
 
     /**
@@ -22,8 +22,26 @@ public class BPlusTree<K extends Comparable<K>, V> {
         leafNode.insert(key, data);
 
         // Check if the root node has changed
-        while(root.getParent() != null) {
-            this.root = root.getParent();
+        resetRoot();
+    }
+
+    /**
+     * We assume that the heap file is already sorted prior to bulk loading
+     *
+     * This algorithm will load all entries into the binary tree in a more
+     * efficient manner, but will do so all in one go.
+     *
+     * The root of the tree will be the rightmost leaf node and will insert
+     * each new key/record into this node. When overflow occurs and a new leaf
+     * node is added to the right of the current one, the new rightmost node
+     * will be the new root. The root will be set to the highest parent after
+     * all records are entered
+     */
+    public void bulkInsert(K key, V data) {
+        LeafNode<K, V> bulkLoadRoot = (LeafNode<K, V>) root;
+        bulkLoadRoot.insert(key, data);
+        if (bulkLoadRoot.getRightSibling() != null) {
+            this.root = bulkLoadRoot.getRightSibling();
         }
     }
 
@@ -42,8 +60,14 @@ public class BPlusTree<K extends Comparable<K>, V> {
         return (LeafNode<K, V>) node;
     }
 
-    // TODO
-    public void delete() {
+    public V search(K key) {
+        LeafNode<K, V> leaf = findLeafNode(key);
+        return leaf.search(key);
+    }
 
+    public void resetRoot() {
+        while(root.getParent() != null) {
+            this.root = root.getParent();
+        }
     }
 }
