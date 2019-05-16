@@ -28,3 +28,6 @@ ParkingRecords
 ParkingRecords/*
 derby.log
 heap.*
+*.iml
+sample-filtered.csv
+
