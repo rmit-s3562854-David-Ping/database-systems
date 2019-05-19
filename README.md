@@ -30,3 +30,22 @@ Ensure a connection is open
 
 ## B+ Tree
 
+First filter the data-set using the script provided
+
+``./filter.rb sample.csv``
+
+If you are using bulk loading to load the data into the B+ Tree then the file needs to sorted with the following gnu unix command
+
+``sort -T /temp-dir/ --parallel=4 --output sample-filtered-sorted.csv -k 1,1 -k 2,2 sample-filtered.csv``
+
+Run dbload to create the heap file
+
+``javac dbload``
+
+``java dbload -p <pagesize> <datafile>``
+
+Run LoadTree with the following command line arguments
+
+``java LoadTree <load||bulk-load> <pagesize> <b+-tree-order>``
+
+Remember to sort the filtered same data before creating the heap file if you wish to us bulk load.
