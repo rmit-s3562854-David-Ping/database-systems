@@ -12,7 +12,7 @@ public class InternalNode<K extends Comparable<K>> extends Node<K> {
     private List<Node<K>> children;
 
     InternalNode(int order) {
-        // eg. branching factor = 3
+        // eg. order = 3
         this.order = order;
         // eg. 2 keys per node
         this.keys = new ArrayList<>();
@@ -73,12 +73,10 @@ public class InternalNode<K extends Comparable<K>> extends Node<K> {
         InternalNode<K> newNodeRight = new InternalNode<>(order);
 
         // 2. Split the children between the current node and the newRightNode
-        List<Node<K>> leftChildNodes = new ArrayList<>(children.subList(0, children.size()/2));
-        List<Node<K>> rightChildNodes = new ArrayList<>(children.subList(children.size()/2, children.size()));
+        List<Node<K>> leftChildNodes = new ArrayList<>(children.subList(0, (int) Math.ceil(children.size()/2.0)));
+        List<Node<K>> rightChildNodes = new ArrayList<>(children.subList((int) Math.ceil(children.size()/2.0), children.size()));
         this.children = leftChildNodes;
         newNodeRight.children = rightChildNodes;
-
-
 
         // 3. Split the keys between the current node and the newRightNode
         List<K> keysLeft = new ArrayList<>(keys.subList(0, mid));

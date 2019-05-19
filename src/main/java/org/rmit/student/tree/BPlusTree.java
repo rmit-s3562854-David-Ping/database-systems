@@ -3,6 +3,7 @@ package org.rmit.student.tree;
 public class BPlusTree<K extends Comparable<K>, V> {
 
     // Must be >= 3
+    // is the maximum number of children a node can have
     private int order;
 
     private Node<K> root;

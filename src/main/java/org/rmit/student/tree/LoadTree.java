@@ -147,41 +147,52 @@ public class LoadTree {
      * Will display the time taken to retrieve the entry.
      */
     private void searchAfterTreeLoaded(BPlusTree<String, byte[]> tree) {
+        byte[] result;
+        long startTime;
         Scanner keyboard = new Scanner(System.in);
         System.out.println();
-        System.out.println("Enter a search key: ");
-        String searchKey = keyboard.nextLine();
-        long startTime = System.currentTimeMillis();
-        System.out.println("Now searching for: " + searchKey);
 
-        byte[] result = tree.search(searchKey);
-        ByteArrayInputStream recordInputStream = new ByteArrayInputStream(result);
-        for (byte[] byteArray : byteArrays) {
-            try {
-                recordInputStream.read(byteArray);
-            } catch (Exception e) {
+
+        do {
+            System.out.println("Enter a search key: ");
+            String searchKey = keyboard.nextLine();
+            System.out.println("Now searching for: " + searchKey);
+            startTime = System.currentTimeMillis();
+            result = tree.search(searchKey);
+
+            if (result == null) {
+                System.err.println("Search key not found, please try again");
+                continue;
             }
-        }
 
-        System.out.println("DeviceID: " + ByteBuffer.wrap(deviceId).getInt());
-        System.out.println("Arrival time: " + new Date(ByteBuffer.wrap(arrivalTime).getLong() * 1000));
-        System.out.println("Departure time: " + new Date(ByteBuffer.wrap(departureTime).getLong() * 1000));
-        System.out.println("Duration (seconds): " + ByteBuffer.wrap(durationSeconds).getLong());
-        System.out.println("Street marker: " + new String(streetMarker));
-        System.out.println("Parking sign: " + new String(parkingSign));
-        System.out.println("Area: " + new String(area));
-        System.out.println("Street ID: " + ByteBuffer.wrap(streetId).getInt());
-        System.out.println("Street Name: " + new String(streetName));
-        System.out.println("Between street 1: " + new String(betweenStreet1));
-        System.out.println("Between street 2: " + new String(betweenStreet2));
-        System.out.println("Side of street: " + ByteBuffer.wrap(sideOfStreet).getInt());
-        System.out.println("In violation: " + (Boolean) (ByteBuffer.wrap(inViolation).get() != 0) + "\n");
+            ByteArrayInputStream recordInputStream = new ByteArrayInputStream(result);
+            for (byte[] byteArray : byteArrays) {
+                try {
+                    recordInputStream.read(byteArray);
+                } catch (Exception e) {
+                }
+            }
+
+            System.out.println("DeviceID: " + ByteBuffer.wrap(deviceId).getInt());
+            System.out.println("Arrival time: " + new Date(ByteBuffer.wrap(arrivalTime).getLong() * 1000));
+            System.out.println("Departure time: " + new Date(ByteBuffer.wrap(departureTime).getLong() * 1000));
+            System.out.println("Duration (seconds): " + ByteBuffer.wrap(durationSeconds).getLong());
+            System.out.println("Street marker: " + new String(streetMarker));
+            System.out.println("Parking sign: " + new String(parkingSign));
+            System.out.println("Area: " + new String(area));
+            System.out.println("Street ID: " + ByteBuffer.wrap(streetId).getInt());
+            System.out.println("Street Name: " + new String(streetName));
+            System.out.println("Between street 1: " + new String(betweenStreet1));
+            System.out.println("Between street 2: " + new String(betweenStreet2));
+            System.out.println("Side of street: " + ByteBuffer.wrap(sideOfStreet).getInt());
+            System.out.println("In violation: " + (Boolean) (ByteBuffer.wrap(inViolation).get() != 0) + "\n");
 
 
-        long endTime = System.currentTimeMillis();
-        long timeInMilliseconds = endTime - startTime;
-        System.out.println("Time taken to search tree (milliseconds): " + timeInMilliseconds);
-        System.out.println("Time taken to search tree (seconds): " + (timeInMilliseconds / 1000));
+            long endTime = System.currentTimeMillis();
+            long timeInMilliseconds = endTime - startTime;
+            System.out.println("Time taken to search tree (milliseconds): " + timeInMilliseconds);
+            System.out.println("Time taken to search tree (seconds): " + (timeInMilliseconds / 1000));
+        } while (true);
     }
 
     private void displayUsageMessage() {
