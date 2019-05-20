@@ -120,4 +120,12 @@ public class LeafNode<K extends Comparable<K>, V> extends Node<K> {
     public LeafNode<K, V> getRightSibling() {
         return this.rightSibling;
     }
+
+    public List<V> getDataEntries() {
+        return this.dataEntries;
+    }
+
+    public List<K> getKeys() {
+        return this.keys;
+    }
 }

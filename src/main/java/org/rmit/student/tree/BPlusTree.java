@@ -1,5 +1,8 @@
 package org.rmit.student.tree;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BPlusTree<K extends Comparable<K>, V> {
 
     // Must be >= 3
@@ -64,6 +67,31 @@ public class BPlusTree<K extends Comparable<K>, V> {
     public V search(K key) {
         LeafNode<K, V> leaf = findLeafNode(key);
         return leaf.search(key);
+    }
+
+    public List<V> rangeSearch(K searchKeyBot, K searchKeyTop) {
+        List<V> rangeResult = new ArrayList<>();
+        // Start from the bottom bound and go up
+        LeafNode<K, V> leaf = findLeafNode(searchKeyBot);
+        boolean upperBoundReached = false;
+
+        while (!upperBoundReached) {
+            List<K> currentLeafKeys = leaf.getKeys();
+            //
+            for (int i = 0; i < currentLeafKeys.size(); i++) {
+                // if the current key is greater than the bottom bound
+                if (currentLeafKeys.get(i).compareTo(searchKeyBot) >= 0) {
+                    // if the current key is less than the upper bound
+                    if (currentLeafKeys.get(i).compareTo(searchKeyTop) > 0) {
+                        upperBoundReached = true;
+                        break;
+                    }
+                    rangeResult.add(leaf.getDataEntries().get(i));
+                }
+            }
+            leaf = leaf.getRightSibling();
+        }
+        return rangeResult;
     }
 
     public void resetRoot() {

@@ -46,6 +46,8 @@ Run dbload to create the heap file
 
 Run LoadTree with the following command line arguments
 
-``java LoadTree <load||bulk-load> <pagesize> <b+-tree-order>``
+``java LoadTree <load || bulk-load> <pagesize> <b+-tree-order>``
 
-Remember to sort the filtered same data before creating the heap file if you wish to us bulk load.
+Remember to sort the filtered data before creating the heap file if you wish to use bulk load.
+
+After loading the tree you may search for a record in the tree using the DA_NAME key of the record eg 212131501126537 (deviceId: 21213, arrivalDate: 1501126537).

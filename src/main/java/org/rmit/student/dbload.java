@@ -1,4 +1,4 @@
-package org.rmit.student.tree;
+package org.rmit.student;
 
 import java.io.*;
 import java.nio.ByteBuffer;
