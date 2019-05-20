@@ -1,5 +1,3 @@
-package org.rmit.student;
-
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
