@@ -1,5 +1,3 @@
-package org.rmit.student.tree;
-
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
@@ -99,7 +97,6 @@ public class dbload {
             bufferedReader = new BufferedReader(new FileReader(file));
             dataOutputStream = new DataOutputStream(new FileOutputStream("heap." + pageSize));
             String row;
-            bufferedReader.readLine();
             while ((row = bufferedReader.readLine()) != null) {
                 String[] columns = row.split(DELIMITER);
                 if (columns[0] != null && columns[1] != null) {

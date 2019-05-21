@@ -1,6 +1,7 @@
 package org.rmit.student.tree;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -16,10 +17,10 @@ public class LeafNode<K extends Comparable<K>, V> extends Node<K> {
     // private List<L> keys from Node class
     private List<V> dataEntries;
 
-    LeafNode(int branchingFactor) {
+    LeafNode(int order) {
         this.keys = new ArrayList<>();
         this.dataEntries = new ArrayList<>();
-        this.branchingFactor = branchingFactor;
+        this.order = order;
         this.nodeType = NodeType.LEAF;
     }
 
@@ -53,11 +54,12 @@ public class LeafNode<K extends Comparable<K>, V> extends Node<K> {
      */
     @Override
     public void handleOverflow() {
-        // 1. Create a new node for the right sibling
-        LeafNode<K, V> newNodeRight = new LeafNode<>(branchingFactor);
-
         // Because decimals get truncated automatically no need to do ceiling and -1 to get the middle index
         int mid = this.keys.size() / 2;
+        K midKey = this.keys.get(mid);
+
+        // 1. Create a new node for the right sibling
+        LeafNode<K, V> newNodeRight = new LeafNode<>(order);
 
         // Split the keys and data entries into two arrays for the two nodes
         List<K> keysLeft = new ArrayList<>(keys.subList(0, mid));
@@ -74,7 +76,7 @@ public class LeafNode<K extends Comparable<K>, V> extends Node<K> {
         // 2. Create a parent node (parents must always be internal nodes)
         // if it does not already exist
         if (this.getParent() == null) {
-            this.setParent(new InternalNode<>(branchingFactor));
+            this.setParent(new InternalNode<>(order));
             this.parent.getChildren().add(0, this);
         }
         newNodeRight.setParent(this.getParent());
@@ -95,8 +97,16 @@ public class LeafNode<K extends Comparable<K>, V> extends Node<K> {
         this.setRightSibling(newNodeRight);
 
         // push up a key to parent internal node
-        K midKey = this.keys.get(mid);
         this.parent.insertKey(midKey);
+    }
+
+    public V search(K key) {
+        V result = null;
+        int index = Collections.binarySearch(keys, key);
+        if (index >= 0) {
+            result = dataEntries.get(index);
+        }
+        return result;
     }
 
     public void setRightSibling(LeafNode<K, V> rightSibling) {
@@ -105,5 +115,17 @@ public class LeafNode<K extends Comparable<K>, V> extends Node<K> {
 
     public void setLeftSibling(LeafNode<K, V> leftSibling) {
         this.leftSibling = leftSibling;
+    }
+
+    public LeafNode<K, V> getRightSibling() {
+        return this.rightSibling;
+    }
+
+    public List<V> getDataEntries() {
+        return this.dataEntries;
+    }
+
+    public List<K> getKeys() {
+        return this.keys;
     }
 }

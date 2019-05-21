@@ -11,7 +11,7 @@ public abstract class Node<K extends Comparable<K>> {
 
     protected List<K> keys;
     protected InternalNode<K> parent;
-    protected int branchingFactor;
+    protected int order;
     protected NodeType nodeType;
 
     /**
@@ -29,11 +29,7 @@ public abstract class Node<K extends Comparable<K>> {
 
     // When overflow occurs, split the node, etc ...
     public boolean isOverflow() {
-        return this.keys.size() >= branchingFactor;
-    }
-
-    public void setKeys(List<K> keys) {
-        this.keys = keys;
+        return this.keys.size() >= order;
     }
 
     public NodeType getNodeType() {

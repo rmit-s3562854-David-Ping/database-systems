@@ -1,5 +1,3 @@
-package org.rmit.student.tree;
-
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.Date;
@@ -56,10 +54,7 @@ public class dbquery {
     private void search() {
         long startTime = System.currentTimeMillis();
 
-        FileInputStream fileInputStream = null;
-        try {
-            fileInputStream = new FileInputStream(file);
-
+        try (FileInputStream fileInputStream = new FileInputStream(file)) {
             int bytesRead = 0;
             while (bytesRead != -1) {
                 byte[] page = new byte[pageSize];
@@ -69,13 +64,6 @@ public class dbquery {
                 }
             }
         } catch (Exception e) {
-        } finally {
-            try {
-                if (fileInputStream != null) {
-                    fileInputStream.close();
-                }
-            } catch (Exception e) {
-            }
         }
 
         long endTime = System.currentTimeMillis();
@@ -131,12 +119,9 @@ public class dbquery {
                 }
             }
 
-            String recordID = new String(DA_NAME);
-            if(!recordID.trim().equals("")) {
-                System.out.println(recordID.trim());
-            }
             // After converting to string, need to trim to remove empty spaces that comes after (from the padding)
-            if (recordID.trim().equals(text)) {
+            String recordID = new String(DA_NAME).trim();
+            if(recordID.equals(text)) {
                 System.out.println("DeviceID: " + ByteBuffer.wrap(deviceId).getInt());
                 System.out.println("Arrival time: " + new Date(ByteBuffer.wrap(arrivalTime).getLong() * 1000));
                 System.out.println("Departure time: " + new Date(ByteBuffer.wrap(departureTime).getLong() * 1000));

@@ -11,9 +11,9 @@ public class InternalNode<K extends Comparable<K>> extends Node<K> {
 
     private List<Node<K>> children;
 
-    InternalNode(int branchingFactor) {
-        // eg. branching factor = 3
-        this.branchingFactor = branchingFactor;
+    InternalNode(int order) {
+        // eg. order = 3
+        this.order = order;
         // eg. 2 keys per node
         this.keys = new ArrayList<>();
         // eg. 3 children/pointers
@@ -65,17 +65,18 @@ public class InternalNode<K extends Comparable<K>> extends Node<K> {
      */
     @Override
     public void handleOverflow() {
-        // 1. Create new internal node
-        InternalNode<K> newNodeRight = new InternalNode<>(branchingFactor);
-
-        // 2. Split the children between the current node and the newRightNode
-        List<Node<K>> leftChildNodes = new ArrayList<>(children.subList(0, children.size()/2));
-        List<Node<K>> rightChildNodes = new ArrayList<>(children.subList(children.size()/2, children.size()));
-        this.children = leftChildNodes;
-        newNodeRight.children = rightChildNodes;
-
         // Because decimals get truncated automatically no need to do ceiling and -1 to get the middle index
         int mid = this.keys.size() / 2;
+        K midKey = this.keys.get(mid);
+
+        // 1. Create new internal node
+        InternalNode<K> newNodeRight = new InternalNode<>(order);
+
+        // 2. Split the children between the current node and the newRightNode
+        List<Node<K>> leftChildNodes = new ArrayList<>(children.subList(0, (int) Math.ceil(children.size()/2.0)));
+        List<Node<K>> rightChildNodes = new ArrayList<>(children.subList((int) Math.ceil(children.size()/2.0), children.size()));
+        this.children = leftChildNodes;
+        newNodeRight.children = rightChildNodes;
 
         // 3. Split the keys between the current node and the newRightNode
         List<K> keysLeft = new ArrayList<>(keys.subList(0, mid));
@@ -86,7 +87,7 @@ public class InternalNode<K extends Comparable<K>> extends Node<K> {
 
         // 4. Create a parent node (parents must always be internal nodes) if it does not exist
         if (this.getParent() == null) {
-            this.setParent(new InternalNode<>(branchingFactor));
+            this.setParent(new InternalNode<>(order));
             this.parent.children.add(0, this);
         }
         newNodeRight.setParent(this.getParent());
@@ -103,7 +104,6 @@ public class InternalNode<K extends Comparable<K>> extends Node<K> {
         }
 
         // 6. push up a key to parent internal node
-        K midKey = this.keys.get(mid);
         this.parent.insertKey(midKey);
     }
 }
