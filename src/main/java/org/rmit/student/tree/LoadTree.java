@@ -179,15 +179,23 @@ public class LoadTree {
         Scanner keyboard = new Scanner(System.in);
         System.out.println();
 
-        System.out.println("Enter a search key (bottom range): ");
-        String searchKeyBot = keyboard.nextLine();
-        long keyLowerBound = Long.parseLong(searchKeyBot);
+        long keyLowerBound;
+        long keyUpperBound;
+        try {
+            System.out.println("Enter a search key (bottom range): ");
+            String searchKeyBot = keyboard.nextLine();
+            keyLowerBound = Long.parseLong(searchKeyBot);
 
-        System.out.println("Enter a search key (top range): ");
-        String searchKeyTop = keyboard.nextLine();
-        long keyUpperBound = Long.parseLong(searchKeyTop);
+            System.out.println("Enter a search key (top range): ");
+            String searchKeyTop = keyboard.nextLine();
+            keyUpperBound = Long.parseLong(searchKeyTop);
+        } catch (Exception e) {
+            System.err.println("Invalid search key");
+            return;
+        }
 
-        System.out.println("Now searching between: " + searchKeyBot + " & " + searchKeyTop);
+
+        System.out.println("Now searching between: " + keyLowerBound + " & " + keyUpperBound);
         startTime = System.currentTimeMillis();
         rangeResult = tree.rangeSearch(keyLowerBound, keyUpperBound);
 
