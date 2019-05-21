@@ -66,7 +66,7 @@ public class LoadTree {
      * The time taken will be displayed once it is finished loading.
      */
     private void load() {
-        BPlusTree<String, byte[]> tree = new BPlusTree(branchingFactor);
+        BPlusTree<Long, byte[]> tree = new BPlusTree(branchingFactor);
         long startTime = System.currentTimeMillis();
         try(FileInputStream fileInputStream = new FileInputStream(file)) {
             int bytesRead = 0;
@@ -93,7 +93,7 @@ public class LoadTree {
         displayOptions(tree);
     }
 
-    private void displayOptions(BPlusTree<String, byte[]> tree) {
+    private void displayOptions(BPlusTree<Long, byte[]> tree) {
         boolean repeat = true;
         while(repeat) {
             Scanner keyboard = new Scanner(System.in);
@@ -114,7 +114,7 @@ public class LoadTree {
 
             switch (optionNum) {
                 case 1:
-                    searchAfterTreeLoaded(tree);
+                    search(tree);
                     break;
                 case 2:
                     rangeSearch(tree);
@@ -130,7 +130,7 @@ public class LoadTree {
      * The Records in each page is read into a byte array and the key to each
      * record is retrieved to be used in the insertion.
      */
-    private void readPageIntoTree(BPlusTree<String, byte[]> tree, byte[] page) {
+    private void readPageIntoTree(BPlusTree<Long, byte[]> tree, byte[] page) {
         ByteArrayInputStream pageInputStream = new ByteArrayInputStream(page);
 
         int bytesRead;
@@ -156,12 +156,13 @@ public class LoadTree {
             // THE KEY
             String recordID = new String(DA_NAME).trim();
 
-            if(!recordID.equals("")) {
 
+            if(!recordID.equals("")) {
+                long key = Long.parseLong(recordID);
                 if (loadOption.equals("load")) {
-                    tree.insert(recordID, record);
+                    tree.insert(key, record);
                 }else if(loadOption.equals("bulk-load")) {
-                    tree.bulkInsert(recordID, record);
+                    tree.bulkInsert(key, record);
                 }
 //                System.out.println(recordID + " has been added");
             }
@@ -171,7 +172,7 @@ public class LoadTree {
     /**
      * Range search of the B+ Tree
      */
-    private void rangeSearch(BPlusTree<String, byte[]> tree) {
+    private void rangeSearch(BPlusTree<Long, byte[]> tree) {
         List<byte[]> rangeResult;
         long startTime;
         Scanner keyboard = new Scanner(System.in);
@@ -179,13 +180,15 @@ public class LoadTree {
 
         System.out.println("Enter a search key (bottom range): ");
         String searchKeyBot = keyboard.nextLine();
+        long keyLowerBound = Long.parseLong(searchKeyBot);
 
         System.out.println("Enter a search key (top range): ");
         String searchKeyTop = keyboard.nextLine();
+        long keyUpperBound = Long.parseLong(searchKeyTop);
 
         System.out.println("Now searching between: " + searchKeyBot + " & " + searchKeyTop);
         startTime = System.currentTimeMillis();
-        rangeResult = tree.rangeSearch(searchKeyBot, searchKeyTop);
+        rangeResult = tree.rangeSearch(keyLowerBound, keyUpperBound);
 
         for (byte[] result : rangeResult) {
             ByteArrayInputStream recordInputStream = new ByteArrayInputStream(result);
@@ -211,7 +214,7 @@ public class LoadTree {
      *
      * Will display the time taken to retrieve the entry.
      */
-    private void searchAfterTreeLoaded(BPlusTree<String, byte[]> tree) {
+    private void search(BPlusTree<Long, byte[]> tree) {
         byte[] result;
         long startTime;
         Scanner keyboard = new Scanner(System.in);
@@ -219,9 +222,10 @@ public class LoadTree {
 
         System.out.println("Enter a search key: ");
         String searchKey = keyboard.nextLine();
+        long key = Long.parseLong(searchKey);
         System.out.println("Now searching for: " + searchKey);
         startTime = System.currentTimeMillis();
-        result = tree.search(searchKey);
+        result = tree.search(key);
 
         if (result == null) {
             System.err.println("Search key not found, please try again");
