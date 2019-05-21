@@ -32,13 +32,14 @@ B_STREET_2_COL = 10
 SIDE_OF_STREET_COL = 11
 IN_VIOLATION_COL = 12
 
-AREA_OUTPUT_FILE = 'area.csv'
-STREET_OUTPUT_FILE = 'street.csv'
-SEGMENT_OUTPUT_FILE = 'segment.csv'
-STREET_SIDE_SEGMENT_OUTPUT_FILE = 'street-side-segment.csv'
-PARKING_SIGN_OUTPUT_FILE = 'parking-sign.csv'
-PARKING_BAY_OUTPUT_FILE = 'parking-bay.csv'
-PARKING_EVENT_OUTPUT_FILE = 'parking-event.csv'
+OUTPUT_DIR = 'tables/'
+AREA_OUTPUT_FILE = OUTPUT_DIR + 'area.csv'
+STREET_OUTPUT_FILE = OUTPUT_DIR + 'street.csv'
+SEGMENT_OUTPUT_FILE = OUTPUT_DIR + 'segment.csv'
+STREET_SIDE_SEGMENT_OUTPUT_FILE = OUTPUT_DIR + 'street-side-segment.csv'
+PARKING_SIGN_OUTPUT_FILE = OUTPUT_DIR + 'parking-sign.csv'
+PARKING_BAY_OUTPUT_FILE = OUTPUT_DIR + 'parking-bay.csv'
+PARKING_EVENT_OUTPUT_FILE = OUTPUT_DIR + 'parking-event.csv'
 
 
 if ARGV.length != 1
@@ -80,14 +81,18 @@ File.open(AREA_OUTPUT_FILE, 'w') do |area_file|
                 if area_name != nil && !area_names.has_key?(area_name)
                   # AREA_ID | AREA
                   area_file.write("#{area_names.length},'#{area_name}'\n")
-                  area_names[area_name] = true
+                  area_names[area_name] = area_names.length
                 end
 
                 # Street
+                area_id = nil
+                if area_names.has_key?(area_name)
+                  area_id = area_names[area_name]
+                end
                 street_id = row[STREET_ID_COL]
                 if street_id != nil && !street_ids.has_key?(street_id)
                   # STREET_ID | STREET_NAME | AREA_ID
-                  street_file.write("#{street_id}, '#{row[STREET_NAME_COL]}', '#{area_name}'\n")
+                  street_file.write("#{street_id}, '#{row[STREET_NAME_COL]}', #{area_id}\n")
                   street_ids[street_id] = true
                 end
 

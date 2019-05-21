@@ -9,8 +9,8 @@ import java.sql.Statement;
 
 public class Derby {
 
-    private static final String PARKING_BAY_TABLE = "parking_bay";
-    private static final String PARKING_EVENT_TABLE = "parking_event";
+    private static final String PARKING_BAY_TABLE = "ParkingBay";
+    private static final String PARKING_EVENT_TABLE = "ParkingEvent";
     private static final String DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
     private static final String DATABASE_NAME = "jdbc:derby:ParkingRecords;create=true;";
     private static String SQL_TABLE_FILE = "tables.sql";
@@ -32,8 +32,13 @@ public class Derby {
         // run the bulk load statement
         try {
             statement = connection.createStatement();
-            statement.execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null, 'PARKING_BAY', 'parking-bay.csv', null, null, null, 0)");
-            statement.execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null, 'PARKING_EVENT', 'parking-event.csv', null, null, null, 0)");
+            statement.execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null, 'AREA', 'tables/area.csv', null, null, null, 0)");
+            statement.execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null, 'STREET', 'tables/street.csv', null, null, null, 0)");
+            statement.execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null, 'SEGMENT', 'tables/segment.csv', null, null, null, 0)");
+            statement.execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null, 'STREET_SIDE_SEGMENT', 'tables/street-side-segment.csv', null, null, null, 0)");
+            statement.execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null, 'SIGN', 'tables/parking-sign.csv', null, null, null, 0)");
+            statement.execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null, 'PARKING_BAY', 'tables/parking-bay.csv', null, null, null, 0)");
+            statement.execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null, 'PARKING_EVENT', 'tables/parking-event.csv', null, null, null, 0)");
             statement.close();
         } catch (Exception e) {
             System.err.println("Error occurred when importing csv files into the tables, please ensure you have generated these files using the script: ./generate-table-data.rb sample.csv");
