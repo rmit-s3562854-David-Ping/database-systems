@@ -71,16 +71,13 @@ File.open(AREA_OUTPUT_FILE, 'w') do |area_file|
               street_markers = {}
               street_maker_arrival_times = {}
 
-              # The id of the parking sign
-              parking_sign_id = 0
-
               CSV.foreach(source_file, {:headers => true}) do |row|
 
                 # Area
                 area_name = row[AREA_COL]
                 if area_name != nil && !area_names.has_key?(area_name)
                   # AREA_ID | AREA
-                  area_file.write("#{area_names.length},'#{area_name}'\n")
+                  area_file.write("#{area_names.length},#{area_name}\n")
                   area_names[area_name] = area_names.length
                 end
 
@@ -92,7 +89,7 @@ File.open(AREA_OUTPUT_FILE, 'w') do |area_file|
                 street_id = row[STREET_ID_COL]
                 if street_id != nil && !street_ids.has_key?(street_id)
                   # STREET_ID | STREET_NAME | AREA_ID
-                  street_file.write("#{street_id}, '#{row[STREET_NAME_COL]}', #{area_id}\n")
+                  street_file.write("#{street_id},#{row[STREET_NAME_COL]},#{area_id}\n")
                   street_ids[street_id] = true
                 end
 
@@ -103,35 +100,50 @@ File.open(AREA_OUTPUT_FILE, 'w') do |area_file|
                 segment_composite_key = "#{between_street_1}-#{between_street_2}"
                 segment_composite_key2 = "#{between_street_2}-#{between_street_1}"
                 if between_street_1 != nil && between_street_2 != nil && !segment_keys.has_key?(segment_composite_key) && !segment_keys.has_key?(segment_composite_key2)
-                  segment_file.write("'#{between_street_1}', '#{between_street_2}'\n")
-                  segment_keys[segment_composite_key] = true
-                  segment_keys[segment_composite_key2] = true
+                  length = segment_keys.length/2
+                  segment_file.write("#{length},#{between_street_1},#{between_street_2}\n")
+                  segment_keys[segment_composite_key] = length
+                  segment_keys[segment_composite_key2] = length
                 end
 
                 # Street Side Segment
+                segment_id = nil
+                if segment_keys.has_key?(segment_composite_key)
+                  segment_id = segment_keys[segment_composite_key]
+                else
+                  if segment_keys.has_key?(segment_composite_key2)
+                       segment_id = segment_keys[segment_composite_key2]
+                  end
+                end
                 side_of_street = row[SIDE_OF_STREET_COL]
                 side_segment = "#{street_id}-#{side_of_street}"
                 if street_id != nil && side_of_street != nil && !side_segments.has_key?(side_segment)
-                  street_side_segment_file.write("#{street_id}, '#{side_of_street}', '#{between_street_1}', '#{between_street_2}'\n")
-                  side_segments[side_segment] = true
+                  street_side_segment_file.write("#{side_segments.length},#{street_id},#{side_of_street},#{segment_id}\n")
+                  side_segments[side_segment] = side_segments.length
                 end
 
                 # Parking Sign
                 parking_sign_details = row[PARKING_SIGN_COL]
+
                 if parking_sign_details != nil && !parking_signs.has_key?(parking_sign_details)
-                  parking_sign_id += 1
-                  parking_sign_file.write("#{parking_sign_id}, '#{parking_sign_details}'\n")
-                  parking_signs[parking_sign_details] = parking_sign_id
+                  parking_sign_file.write("#{parking_signs.length},#{parking_sign_details}\n")
+                  parking_signs[parking_sign_details] = parking_signs.length
                 end
 
                 # Parking Bay
-                street_marker = row[STREET_MARKER_COL]
                 sign_id = nil
                 if parking_signs.has_key?(parking_sign_details)
                   sign_id = parking_signs[parking_sign_details]
                 end
+
+                side_segment_id = nil
+                if side_segments.has_key?(side_segment)
+                  side_segment_id = side_segments[side_segment]
+                end
+
+                street_marker = row[STREET_MARKER_COL]
                 if street_marker != nil && !street_markers.has_key?(street_marker)
-                  parking_bay_file.write("'#{street_marker}',#{row[DEVICE_ID_COL]},#{sign_id},#{side_of_street},#{street_id}\n")
+                  parking_bay_file.write("#{street_marker},#{row[DEVICE_ID_COL]},#{sign_id},#{side_segment_id}\n")
                   street_markers[street_marker] = true
                 end
 
@@ -140,7 +152,7 @@ File.open(AREA_OUTPUT_FILE, 'w') do |area_file|
                 sa_id = "#{street_marker}-#{arrival_time}"
                 if street_marker != nil && arrival_time != nil && !street_maker_arrival_times.has_key?(sa_id)
                   # Concatenate the street marker and arrival time and add to the hash, if it already exists then ignore this row
-                  parking_event_file.write("#{arrival_time},'#{street_marker}',#{row[DEPARTURE_TIME_COL]},#{row[DURATION_SECONDS_COL]},#{row[IN_VIOLATION_COL]}\n")
+                  parking_event_file.write("#{arrival_time},#{street_marker},#{row[DEPARTURE_TIME_COL]},#{row[DURATION_SECONDS_COL]},#{row[IN_VIOLATION_COL]}\n")
                   street_maker_arrival_times[sa_id] = true
                 end
               end

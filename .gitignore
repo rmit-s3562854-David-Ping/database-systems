@@ -21,6 +21,7 @@
 target
 sample-full.csv
 sample-filtered.csv
+sample-filtered2.csv
 sample-filtered-sorted.csv
 parking-records.json
 example.json
