@@ -161,7 +161,8 @@ public class LoadTree {
                 long key = Long.parseLong(recordID);
                 if (loadOption.equals("load")) {
                     tree.insert(key, record);
-                }else if(loadOption.equals("bulk-load")) {
+                }
+                if (loadOption.equals("bulk-load")) {
                     tree.bulkInsert(key, record);
                 }
 //                System.out.println(recordID + " has been added");
