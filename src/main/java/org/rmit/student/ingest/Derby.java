@@ -17,7 +17,7 @@ public class Derby {
     private static final String PARKING_EVENT_TABLE = "PARKING_EVENT";
     private static final String PARKING_BAY_TABLE = "PARKING_BAY";
     private static final String DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
-    private static final String DATABASE_NAME = "jdbc:derby:ParkingRecords9;create=true;";
+    private static final String DATABASE_NAME = "jdbc:derby:ParkingRecords2;create=true;";
     private static String SQL_TABLE_FILE = "tables.sql";
 
     private static Connection connection = null;
@@ -30,11 +30,11 @@ public class Derby {
     }
 
     public static void bulkLoad() {
-        long startTime = System.currentTimeMillis();
 
         // create the tables
         insertData(SQL_TABLE_FILE);
         // run the bulk load statement
+        long startTime = System.currentTimeMillis();
         try {
             statement = connection.createStatement();
             statement.execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null, 'AREA', 'tables/area.csv', null, null, null, 0)");
@@ -50,9 +50,9 @@ public class Derby {
             System.err.println("If the files already exist please check the tables.sql file exists and ensure the schema matches the columns in the generated files");
             e.printStackTrace();
         }
+        long endTime = System.currentTimeMillis();
         disconnect();
 
-        long endTime = System.currentTimeMillis();
         long timeInMilliseconds = endTime - startTime;
         System.out.println("Time taken to load data (milliseconds): " + timeInMilliseconds);
         System.out.println("Time taken to load data (seconds): " + (timeInMilliseconds / 1000));

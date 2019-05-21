@@ -103,7 +103,11 @@ File.open(AREA_OUTPUT_FILE, 'w') do |area_file|
                   length = segment_keys.length/2
                   segment_file.write("#{length},#{between_street_1},#{between_street_2}\n")
                   segment_keys[segment_composite_key] = length
-                  segment_keys[segment_composite_key2] = length
+                  if segment_composite_key == segment_composite_key2
+                    segment_keys[segment_composite_key2 + "-2"] = length
+                  else
+                    segment_keys[segment_composite_key2] = length
+                  end
                 end
 
                 # Street Side Segment
@@ -143,7 +147,7 @@ File.open(AREA_OUTPUT_FILE, 'w') do |area_file|
 
                 street_marker = row[STREET_MARKER_COL]
                 if street_marker != nil && !street_markers.has_key?(street_marker)
-                  parking_bay_file.write("#{street_marker},#{row[DEVICE_ID_COL]},#{sign_id},#{side_segment_id}\n")
+                  parking_bay_file.write("#{street_marker},#{row[DEVICE_ID_COL]},#{side_segment_id},#{sign_id}\n")
                   street_markers[street_marker] = true
                 end
 

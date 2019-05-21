@@ -34,7 +34,8 @@ File.open(OUTPUT_FILE, 'w') do |file|
     if row[0] != nil && row[1] != nil && !device_id_arrival_time.has_key?(row[0] + row[1])
 
       # The 4th column contains the DurationSeconds, we must filter the rows with negative values
-      if row[3].to_i < 0
+      num = row[3].to_i
+      if num < 0 || num > 2000000000
         next
       end
 
