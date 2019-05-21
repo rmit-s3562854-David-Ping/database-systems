@@ -53,6 +53,8 @@ if !File.file?(source_file) || !File.exist?(source_file)
   exit
 end
 
+
+
 File.open(AREA_OUTPUT_FILE, 'w') do |area_file|
   File.open(STREET_OUTPUT_FILE, 'w') do |street_file|
     File.open(SEGMENT_OUTPUT_FILE, 'w') do |segment_file|
@@ -64,15 +66,18 @@ File.open(AREA_OUTPUT_FILE, 'w') do |area_file|
               street_ids = {}
               segment_keys = {}
               side_segments = {}
-              parking_sign_ids = {}
+              parking_signs = {}
               street_markers = {}
-              device_id_arrival_time = {}
+              street_maker_arrival_times = {}
+
+              # The id of the parking sign
+              parking_sign_id = 0
 
               CSV.foreach(source_file, {:headers => true}) do |row|
 
                 # Area
                 area_name = row[AREA_COL]
-                if !area_names.has_key?(area_name) && area_name != nil
+                if area_name != nil && !area_names.has_key?(area_name)
                   # AREA_ID | AREA
                   area_file.write("#{area_names.length},'#{area_name}'\n")
                   area_names[area_name] = true
@@ -80,20 +85,20 @@ File.open(AREA_OUTPUT_FILE, 'w') do |area_file|
 
                 # Street
                 street_id = row[STREET_ID_COL]
-                if !street_ids.has_key?(street_id) && street_id != nil
+                if street_id != nil && !street_ids.has_key?(street_id)
                   # STREET_ID | STREET_NAME | AREA_ID
-                  street_file.write("#{street_id}, '#{row[STREET_NAME_COL]}', '#{area_name}'")
+                  street_file.write("#{street_id}, '#{row[STREET_NAME_COL]}', '#{area_name}'\n")
                   street_ids[street_id] = true
                 end
 
                 # Street segment
-                # Create 2 keys just incase the same segment comes in but back to front
+                # Create 2 keys just in case the same segment comes in but back to front
                 between_street_1 = row[B_STREET_1_COL]
                 between_street_2 = row[B_STREET_2_COL]
                 segment_composite_key = "#{between_street_1}-#{between_street_2}"
                 segment_composite_key2 = "#{between_street_2}-#{between_street_1}"
-                if !segment_keys.has_key?(segment_composite_key) && !segment_keys.has_key?(segment_composite_key2) && between_street_1 != nil && between_street_2 != nil
-                  segment_file.write("'#{between_street_1}', '#{between_street_2}'")
+                if between_street_1 != nil && between_street_2 != nil && !segment_keys.has_key?(segment_composite_key) && !segment_keys.has_key?(segment_composite_key2)
+                  segment_file.write("'#{between_street_1}', '#{between_street_2}'\n")
                   segment_keys[segment_composite_key] = true
                   segment_keys[segment_composite_key2] = true
                 end
@@ -101,44 +106,37 @@ File.open(AREA_OUTPUT_FILE, 'w') do |area_file|
                 # Street Side Segment
                 side_of_street = row[SIDE_OF_STREET_COL]
                 side_segment = "#{street_id}-#{side_of_street}"
-                if !side_segments.has_key?(side_segment) && street_id != nil && side_of_street != nil
-                  street_side_segment_file.write("#{street_id}, '#{side_of_street}', '#{between_street_1}', '#{between_street_2}'")
+                if street_id != nil && side_of_street != nil && !side_segments.has_key?(side_segment)
+                  street_side_segment_file.write("#{street_id}, '#{side_of_street}', '#{between_street_1}', '#{between_street_2}'\n")
+                  side_segments[side_segment] = true
                 end
 
                 # Parking Sign
-                parking_sign = row[PARKING_SIGN_COL]
-                if !parking_sign_ids.has_key?()
-
-                # Parking Bay
-
-                # Parking Event
-
-
-
-
-                if !street_markers.has_key?(row[4]) && row[4] != nil
-                  parking_bay_file.write("'#{row[4]}','#{row[6]}','#{row[8]}','#{row[9]}','#{row[10]}'\n")
-                  street_markers[row[4]] = true
+                parking_sign_details = row[PARKING_SIGN_COL]
+                if parking_sign_details != nil && !parking_signs.has_key?(parking_sign_details)
+                  parking_sign_id += 1
+                  parking_sign_file.write("#{parking_sign_id}, '#{parking_sign_details}'\n")
+                  parking_signs[parking_sign_details] = parking_sign_id
                 end
 
-                if street_markers.has_key?(row[4])
-                  # FORMAT THE DATE AND TIME
-                  # FROM
-                  # 07/21/2017 11:42:28 PM
-                  # TO
-                  # 2017-07-21 23:42:28
-                  if row[1] != nil
-                    row[1] = Time.strptime(row[1], '%m/%d/%Y %T %p').strftime('%Y-%m-%d %T')
-                  end
+                # Parking Bay
+                street_marker = row[STREET_MARKER_COL]
+                sign_id = nil
+                if parking_signs.has_key?(parking_sign_details)
+                  sign_id = parking_signs[parking_sign_details]
+                end
+                if street_marker != nil && !street_markers.has_key?(street_marker)
+                  parking_bay_file.write("'#{street_marker}',#{row[DEVICE_ID_COL]},#{sign_id},#{side_of_street},#{street_id}\n")
+                  street_markers[street_marker] = true
+                end
 
-                  if row[2] != nil
-                    row[2] = Time.strptime(row[2], '%m/%d/%Y %T %p').strftime('%Y-%m-%d %T')
-                  end
-                  # Concatenate the device id and arrival time and add to the hash, if it already exists then ignore this row
-                  if row[0] != nil && row[1] != nil && !device_id_arrival_time.has_key?(row[0] + row[1])
-                    parking_event_file.write("#{row[0]},#{row[1]},#{row[2]},#{row[3]},'#{row[4]}','#{row[5]}',#{row[7]},#{row[11]},#{row[12]}\n")
-                    device_id_arrival_time[row[0] + row[1]] = true
-                  end
+                # Parking Time Event
+                arrival_time = row[ARRIVAL_TIME_COL]
+                sa_id = "#{street_marker}-#{arrival_time}"
+                if street_marker != nil && arrival_time != nil && !street_maker_arrival_times.has_key?(sa_id)
+                  # Concatenate the street marker and arrival time and add to the hash, if it already exists then ignore this row
+                  parking_event_file.write("#{arrival_time},'#{street_marker}',#{row[DEPARTURE_TIME_COL]},#{row[DURATION_SECONDS_COL]},#{row[IN_VIOLATION_COL]}\n")
+                  street_maker_arrival_times[sa_id] = true
                 end
               end
             end
