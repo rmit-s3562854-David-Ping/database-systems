@@ -17,7 +17,7 @@ public class Derby {
     private static final String PARKING_EVENT_TABLE = "PARKING_EVENT";
     private static final String PARKING_BAY_TABLE = "PARKING_BAY";
     private static final String DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
-    private static final String DATABASE_NAME = "jdbc:derby:ParkingRecords2;create=true;";
+    private static final String DATABASE_NAME = "jdbc:derby:ParkingRecords;create=true;";
     private static String SQL_TABLE_FILE = "tables.sql";
 
     private static Connection connection = null;
