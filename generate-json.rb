@@ -47,6 +47,7 @@ count = 0
 File.open(OUTPUT_FILE, 'w') do |file|
   file.write("[\n")
   CSV.foreach(source_file, {:headers => true}) do |row|
+    print "#{count}\n"
     file.write("\t{
 \t\t\"#{AREA}\": \"#{row[6]}\",
 \t\t\"#{PARKING_SIGN}\": \"#{row[5]}\",
