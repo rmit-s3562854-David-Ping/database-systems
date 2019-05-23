@@ -3,7 +3,12 @@
 require 'csv.rb'
 
 OUTPUT_FILE = 'parking-records.json'
-SUB_DIRECTORY_NAME = 'parking_bay'
+STREET_DIRECTORY_NAME = 'street'
+STREET_SEGMENT_DIRECTORY_NAME = 'street_segment'
+PARKING_BAY_DIRECTORY_NAME = 'parking_bay'
+PARKING_TIME_DIRECTORY_NAME = 'parking_time'
+
+
 
 # DATASET COLUMNS
 COL1_NAME = 'device_id'
@@ -19,6 +24,7 @@ COL10_NAME = 'between_street_1'
 COL11_NAME = 'between_street_2'
 COL12_NAME = 'side_of_street'
 COL13_NAME = 'in_violation'
+
 
 
 if ARGV.length != 1
@@ -41,22 +47,27 @@ count = 0
 File.open(OUTPUT_FILE, 'w') do |file|
   file.write("[\n")
   CSV.foreach(source_file, {:headers => true}) do |row|
-    # file.write("'#{row[4]}','#{row[6]}','#{row[8]}','#{row[9]}','#{row[10]}'\n")
     file.write("\t{
-\t\t\"#{COL1_NAME}\": \"#{row[0]}\",
-\t\t\"#{COL2_NAME}\": \"#{row[1]}\",
-\t\t\"#{COL3_NAME}\": \"#{row[2]}\",
-\t\t\"#{COL4_NAME}\": \"#{row[3]}\",
+\t\t\"#{COL7_NAME}\": \"#{row[6]}\",
 \t\t\"#{COL6_NAME}\": \"#{row[5]}\",
-\t\t\"#{COL8_NAME}\": \"#{row[7]}\",
-\t\t\"#{COL12_NAME}\": \"#{row[11]}\",
-\t\t\"#{COL13_NAME}\": \"#{row[12]}\",
-\t\t\"#{SUB_DIRECTORY_NAME}\": {
-\t\t\t\"#{COL5_NAME}\": \"#{row[4]}\",
-\t\t\t\"#{COL7_NAME}\": \"#{row[6]}\",
-\t\t\t\"#{COL9_NAME}\": \"#{row[8]}\",
+\t\t\"#{STREET_DIRECTORY_NAME}\": {
+\t\t\t\"#{COL8_NAME}\": \"#{row[7]}\",
+\t\t\t\"#{COL9_NAME}\": \"#{row[8]}\"
+\t\t},
+\t\t\"#{STREET_SEGMENT_DIRECTORY_NAME}\": {
 \t\t\t\"#{COL10_NAME}\": \"#{row[9]}\",
-\t\t\t\"#{COL11_NAME}\": \"#{row[10]}\"
+\t\t\t\"#{COL11_NAME}\": \"#{row[10]}\",
+\t\t\t\"#{COL12_NAME}\": \"#{row[11]}\"
+\t\t},
+\t\t\"#{PARKING_BAY_DIRECTORY_NAME}\": {
+\t\t\t\"#{COL1_NAME}\": \"#{row[0]}\",
+\t\t\t\"#{COL5_NAME}\": \"#{row[4]}\"
+\t\t},
+\t\t\"#{PARKING_TIME_DIRECTORY_NAME}\": {
+\t\t\t\"#{COL2_NAME}\": \"#{row[1]}\",
+\t\t\t\"#{COL3_NAME}\": \"#{row[2]}\",
+\t\t\t\"#{COL4_NAME}\": \"#{row[3]}\",
+\t\t\t\"#{COL13_NAME}\": \"#{row[12]}\"
 \t\t}
 \t}")
     count += 1
@@ -67,3 +78,27 @@ File.open(OUTPUT_FILE, 'w') do |file|
   file.write("\n]\n")
 end
 
+# JSON FORMATTING
+# {
+#   area: String,
+#   sign: String,
+#   street: {
+#     id: number
+#     name: String
+#   },
+#   street_segment: {
+#     between_street_1: String,
+#     between_street_2: String,
+#     side_of_street: number,
+#   },
+#   parking_bay: {
+#     device_id: number,
+#     street_marker: String
+#   },
+#   parking_time: {
+#     arrival_time: number,
+#     departure_time: number,
+#     duration: number,
+#     in_violation: boolean,
+#   }
+# }

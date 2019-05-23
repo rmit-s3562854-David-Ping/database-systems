@@ -104,7 +104,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>org.rmit.student.Derby</mainClass>
+                            <mainClass>org.rmit.student.ingest.Derby</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

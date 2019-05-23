@@ -21,12 +21,14 @@
 target
 sample-full.csv
 sample-filtered.csv
+sample-filtered2.csv
 sample-filtered-sorted.csv
-parking-bay.csv
-parking-event.csv
 parking-records.json
 example.json
 ParkingRecords
 ParkingRecords/*
 derby.log
 heap.*
+*.iml
+sample-filtered.csv
+
