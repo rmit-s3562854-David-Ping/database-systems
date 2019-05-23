@@ -11,19 +11,19 @@ PARKING_TIME_DIRECTORY_NAME = 'parking_time'
 
 
 # DATASET COLUMNS
-COL1_NAME = 'device_id'
-COL2_NAME = 'arrival_time'
-COL3_NAME = 'departure_time'
-COL4_NAME = 'duration_seconds'
-COL5_NAME = 'street_marker'
-COL6_NAME = 'parking_sign'
-COL7_NAME = 'area'
-COL8_NAME = 'street_id'
-COL9_NAME = 'street_name'
-COL10_NAME = 'between_street_1'
-COL11_NAME = 'between_street_2'
-COL12_NAME = 'side_of_street'
-COL13_NAME = 'in_violation'
+DEVICE_ID = 'device_id'
+ARRIVAL_TIME = 'arrival_time'
+DEPARTURE_TIME = 'departure_time'
+DURATION = 'duration_seconds'
+STREET_MARKER = 'street_marker'
+PARKING_SIGN = 'parking_sign'
+AREA = 'area'
+STREET_ID = 'street_id'
+STREET_NAME = 'street_name'
+BETWEEN_STREET_1 = 'between_street_1'
+BETWEEN_STREET_2 = 'between_street_2'
+SIDE_OF_STREET = 'side_of_street'
+IN_VIOLATION = 'in_violation'
 
 
 
@@ -48,26 +48,26 @@ File.open(OUTPUT_FILE, 'w') do |file|
   file.write("[\n")
   CSV.foreach(source_file, {:headers => true}) do |row|
     file.write("\t{
-\t\t\"#{COL7_NAME}\": \"#{row[6]}\",
-\t\t\"#{COL6_NAME}\": \"#{row[5]}\",
+\t\t\"#{AREA}\": \"#{row[6]}\",
+\t\t\"#{PARKING_SIGN}\": \"#{row[5]}\",
+\t\t\"#{SIDE_OF_STREET}\": \"#{row[11]}\",
 \t\t\"#{STREET_DIRECTORY_NAME}\": {
-\t\t\t\"#{COL8_NAME}\": \"#{row[7]}\",
-\t\t\t\"#{COL9_NAME}\": \"#{row[8]}\"
+\t\t\t\"#{STREET_ID}\": \"#{row[7]}\",
+\t\t\t\"#{STREET_NAME}\": \"#{row[8]}\"
 \t\t},
 \t\t\"#{STREET_SEGMENT_DIRECTORY_NAME}\": {
-\t\t\t\"#{COL10_NAME}\": \"#{row[9]}\",
-\t\t\t\"#{COL11_NAME}\": \"#{row[10]}\",
-\t\t\t\"#{COL12_NAME}\": \"#{row[11]}\"
+\t\t\t\"#{BETWEEN_STREET_1}\": \"#{row[9]}\",
+\t\t\t\"#{BETWEEN_STREET_2}\": \"#{row[10]}\"
 \t\t},
 \t\t\"#{PARKING_BAY_DIRECTORY_NAME}\": {
-\t\t\t\"#{COL1_NAME}\": \"#{row[0]}\",
-\t\t\t\"#{COL5_NAME}\": \"#{row[4]}\"
+\t\t\t\"#{DEVICE_ID}\": \"#{row[0]}\",
+\t\t\t\"#{STREET_MARKER}\": \"#{row[4]}\"
 \t\t},
 \t\t\"#{PARKING_TIME_DIRECTORY_NAME}\": {
-\t\t\t\"#{COL2_NAME}\": \"#{row[1]}\",
-\t\t\t\"#{COL3_NAME}\": \"#{row[2]}\",
-\t\t\t\"#{COL4_NAME}\": \"#{row[3]}\",
-\t\t\t\"#{COL13_NAME}\": \"#{row[12]}\"
+\t\t\t\"#{ARRIVAL_TIME}\": \"#{row[1]}\",
+\t\t\t\"#{DEPARTURE_TIME}\": \"#{row[2]}\",
+\t\t\t\"#{DURATION}\": \"#{row[3]}\",
+\t\t\t\"#{IN_VIOLATION}\": \"#{row[12]}\"
 \t\t}
 \t}")
     count += 1
@@ -82,14 +82,14 @@ end
 # {
 #   area: String,
 #   sign: String,
+#   side_of_street: number,
 #   street: {
-#     id: number
-#     name: String
+#     street_id: number
+#     street_name: String
 #   },
 #   street_segment: {
 #     between_street_1: String,
-#     between_street_2: String,
-#     side_of_street: number,
+#     between_street_2: String
 #   },
 #   parking_bay: {
 #     device_id: number,
