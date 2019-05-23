@@ -1,7 +1,7 @@
 # Database Systems assignment 2
 
-Group members:
-Luke Mason s3630120
+Group members:\
+Luke Mason s3630120\
 David Ping s3562854
 
 ## B+ Tree
