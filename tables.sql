@@ -3,6 +3,6 @@ create table STREET(street_id SMALLINT primary key, street_name varchar(35), are
 create table SEGMENT(segment_id int primary key, between_street_1 varchar(35), between_street_2 varchar(35))
 create table STREET_SIDE_SECTION(side_section_id int primary key,street_id SMALLINT references Street(street_id),side_of_street SMALLINT,segment_id int references Segment(segment_id))
 create table SIGN(sign_id int primary key, sign_details varchar(50))
-create table PARKING_BAY(street_marker varchar(6) primary key,device_id int,side_segment_id int references STREET_SIDE_SECTION (side_section_id),sign_id int references Sign(sign_id))
+create table PARKING_BAY(street_marker varchar(6) primary key,device_id int,side_section_id int references STREET_SIDE_SECTION (side_section_id),sign_id int references Sign(sign_id))
 create table PARKING_EVENT(arrival_time BIGINT not null, street_marker varchar(6) not null references PARKING_BAY(street_marker), departure_time BIGINT, duration int, in_violation boolean, primary key (street_marker, arrival_time))
 create index DURATION_VIOLATION ON PARKING_EVENT(duration, in_violation)

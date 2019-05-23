@@ -36,7 +36,7 @@ OUTPUT_DIR = 'tables/'
 AREA_OUTPUT_FILE = OUTPUT_DIR + 'area.csv'
 STREET_OUTPUT_FILE = OUTPUT_DIR + 'street.csv'
 SEGMENT_OUTPUT_FILE = OUTPUT_DIR + 'segment.csv'
-STREET_SIDE_SEGMENT_OUTPUT_FILE = OUTPUT_DIR + 'street-side-segment.csv'
+STREET_SIDE_SECTION_OUTPUT_FILE = OUTPUT_DIR + 'street-side-section.csv'
 PARKING_SIGN_OUTPUT_FILE = OUTPUT_DIR + 'parking-sign.csv'
 PARKING_BAY_OUTPUT_FILE = OUTPUT_DIR + 'parking-bay.csv'
 PARKING_EVENT_OUTPUT_FILE = OUTPUT_DIR + 'parking-event.csv'
@@ -59,14 +59,14 @@ end
 File.open(AREA_OUTPUT_FILE, 'w') do |area_file|
   File.open(STREET_OUTPUT_FILE, 'w') do |street_file|
     File.open(SEGMENT_OUTPUT_FILE, 'w') do |segment_file|
-      File.open(STREET_SIDE_SEGMENT_OUTPUT_FILE, 'w') do |street_side_segment_file|
+      File.open(STREET_SIDE_SECTION_OUTPUT_FILE, 'w') do |street_side_section_file|
         File.open(PARKING_SIGN_OUTPUT_FILE, 'w') do |parking_sign_file|
           File.open(PARKING_BAY_OUTPUT_FILE, 'w') do |parking_bay_file|
             File.open(PARKING_EVENT_OUTPUT_FILE, 'w') do |parking_event_file|
               area_names = {}
               street_ids = {}
               segment_keys = {}
-              side_segments = {}
+              side_sections = {}
               parking_signs = {}
               street_markers = {}
               street_maker_arrival_times = {}
@@ -110,20 +110,20 @@ File.open(AREA_OUTPUT_FILE, 'w') do |area_file|
                   end
                 end
 
-                # Street Side Segment
-                segment_id = nil
+                # Street Side Section
+                section_id = nil
                 if segment_keys.has_key?(segment_composite_key)
-                  segment_id = segment_keys[segment_composite_key]
+                  section_id = segment_keys[segment_composite_key]
                 else
                   if segment_keys.has_key?(segment_composite_key2)
-                       segment_id = segment_keys[segment_composite_key2]
+                       section_id = segment_keys[segment_composite_key2]
                   end
                 end
                 side_of_street = row[SIDE_OF_STREET_COL]
-                side_segment = "#{street_id}-#{side_of_street}"
-                if street_id != nil && side_of_street != nil && !side_segments.has_key?(side_segment)
-                  street_side_segment_file.write("#{side_segments.length},#{street_id},#{side_of_street},#{segment_id}\n")
-                  side_segments[side_segment] = side_segments.length
+                side_section = "#{street_id}-#{side_of_street}"
+                if street_id != nil && side_of_street != nil && !side_sections.has_key?(side_section)
+                  street_side_section_file.write("#{side_sections.length},#{street_id},#{side_of_street},#{section_id}\n")
+                  side_sections[side_section] = side_sections.length
                 end
 
                 # Parking Sign
@@ -141,8 +141,8 @@ File.open(AREA_OUTPUT_FILE, 'w') do |area_file|
                 end
 
                 side_segment_id = nil
-                if side_segments.has_key?(side_segment)
-                  side_segment_id = side_segments[side_segment]
+                if side_sections.has_key?(side_section)
+                  side_segment_id = side_sections[side_section]
                 end
 
                 street_marker = row[STREET_MARKER_COL]

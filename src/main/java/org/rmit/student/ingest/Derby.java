@@ -12,7 +12,7 @@ public class Derby {
     private static final String AREA_TABLE = "AREA";
     private static final String STREET_TABLE = "STREET";
     private static final String SEGMENT_TABLE = "SEGMENT";
-    private static final String STREET_SIDE_SEGMENT_TABLE = "STREET_SIDE_SEGMENT";
+    private static final String STREET_SIDE_SECTION_TABLE = "STREET_SIDE_SECTION";
     private static final String SIGN_TABLE = "SIGN";
     private static final String PARKING_EVENT_TABLE = "PARKING_EVENT";
     private static final String PARKING_BAY_TABLE = "PARKING_BAY";
@@ -40,7 +40,7 @@ public class Derby {
             statement.execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null, 'AREA', 'tables/area.csv', null, null, null, 0)");
             statement.execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null, 'STREET', 'tables/street.csv', null, null, null, 0)");
             statement.execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null, 'SEGMENT', 'tables/segment.csv', null, null, null, 0)");
-            statement.execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null, 'STREET_SIDE_SEGMENT', 'tables/street-side-segment.csv', null, null, null, 0)");
+            statement.execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null, 'STREET_SIDE_SECTION', 'tables/street-side-section.csv', null, null, null, 0)");
             statement.execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null, 'SIGN', 'tables/parking-sign.csv', null, null, null, 0)");
             statement.execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null, 'PARKING_BAY', 'tables/parking-bay.csv', null, null, null, 0)");
             statement.execute("CALL SYSCS_UTIL.SYSCS_IMPORT_TABLE(null, 'PARKING_EVENT', 'tables/parking-event.csv', null, null, null, 0)");
@@ -82,7 +82,7 @@ public class Derby {
             statement.execute("DROP TABLE " + AREA_TABLE);
             statement.execute("DROP TABLE " + STREET_TABLE);
             statement.execute("DROP TABLE " + SEGMENT_TABLE);
-            statement.execute("DROP TABLE " + STREET_SIDE_SEGMENT_TABLE);
+            statement.execute("DROP TABLE " + STREET_SIDE_SECTION_TABLE);
             statement.execute("DROP TABLE " + SIGN_TABLE);
             statement.execute("DROP TABLE " + PARKING_BAY_TABLE);
             statement.execute("DROP TABLE " + PARKING_EVENT_TABLE);
