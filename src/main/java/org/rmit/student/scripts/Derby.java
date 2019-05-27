@@ -1,4 +1,4 @@
-package org.rmit.student.ingest;
+package org.rmit.student.scripts;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
