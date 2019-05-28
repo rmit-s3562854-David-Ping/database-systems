@@ -51,9 +51,9 @@ File.open(OUTPUT_FILE, 'w') do |file|
     file.write("\t{
 \t\t\"#{AREA}\": \"#{row[6]}\",
 \t\t\"#{PARKING_SIGN}\": \"#{row[5]}\",
-\t\t\"#{SIDE_OF_STREET}\": \"#{row[11]}\",
+\t\t\"#{SIDE_OF_STREET}\": #{row[11]},
 \t\t\"#{STREET_DIRECTORY_NAME}\": {
-\t\t\t\"#{STREET_ID}\": \"#{row[7]}\",
+\t\t\t\"#{STREET_ID}\": #{row[7]},
 \t\t\t\"#{STREET_NAME}\": \"#{row[8]}\"
 \t\t},
 \t\t\"#{STREET_SEGMENT_DIRECTORY_NAME}\": {
@@ -61,14 +61,14 @@ File.open(OUTPUT_FILE, 'w') do |file|
 \t\t\t\"#{BETWEEN_STREET_2}\": \"#{row[10]}\"
 \t\t},
 \t\t\"#{PARKING_BAY_DIRECTORY_NAME}\": {
-\t\t\t\"#{DEVICE_ID}\": \"#{row[0]}\",
+\t\t\t\"#{DEVICE_ID}\": #{row[0]},
 \t\t\t\"#{STREET_MARKER}\": \"#{row[4]}\"
 \t\t},
 \t\t\"#{PARKING_TIME_DIRECTORY_NAME}\": {
-\t\t\t\"#{ARRIVAL_TIME}\": \"#{row[1]}\",
-\t\t\t\"#{DEPARTURE_TIME}\": \"#{row[2]}\",
-\t\t\t\"#{DURATION}\": \"#{row[3]}\",
-\t\t\t\"#{IN_VIOLATION}\": \"#{row[12]}\"
+\t\t\t\"#{ARRIVAL_TIME}\": #{row[1]},
+\t\t\t\"#{DEPARTURE_TIME}\": #{row[2]},
+\t\t\t\"#{DURATION}\": #{row[3]},
+\t\t\t\"#{IN_VIOLATION}\": #{row[12] == "True"}
 \t\t}
 \t}")
     count += 1
