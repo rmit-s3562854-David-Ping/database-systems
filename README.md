@@ -10,6 +10,8 @@ First filter the data-set using the script provided
 
 ``./filter.rb sample.csv``
 
+This will produce a file sample-filtered.csv which removes duplicates and invalid entries (negative durations)
+
 If you are using bulk loading to load the data into the B+ Tree then the file needs to sorted with the following gnu unix command
 
 ``sort -T /temp-dir/ --parallel=4 --output sample-filtered-sorted.csv -k 1,1 -k 2,2 sample-filtered.csv``
