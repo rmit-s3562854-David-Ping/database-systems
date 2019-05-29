@@ -22,12 +22,13 @@ Run dbload to create the heap file
 
 Run LoadTree with the following command line arguments
 
-``java LoadTree <load || bulk-load> <pagesize> <b+-tree-order (max num pointers/children of a node)>``
+``java org/rmit/student/LoadTree <load || bulk-load> <pagesize> <b+-tree-order (max num pointers/children of a node)>``
 
 Remember to sort the filtered data before creating the heap file if you wish to use bulk load.
 
 After loading the tree you may search for a record in the tree using the DA_NAME key of the record eg 212131501126537 (deviceId: 21213, arrivalDate: 1501126537).
 
+This worked on my local machine as attempting to load the B+ Tree in the aws EC2 instance would result in out of memory errors
 
 
 ## Loading data into Apache Derby
